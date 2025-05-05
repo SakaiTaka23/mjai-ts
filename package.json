@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "types": "pnpm -F \"types\"",
+    "core": "pnpm -F \"core\""
   },
   "keywords": [],
   "author": "",

@@ -27,6 +27,12 @@ importers:
         specifier: ^8.4.0
         version: 8.4.0(typescript@5.8.3)
 
+  packages/core:
+    dependencies:
+      '@mjai/types':
+        specifier: workspace:^
+        version: link:../types
+
   packages/eslint-config:
     devDependencies:
       '@eslint/js':

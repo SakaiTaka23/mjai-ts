@@ -1,0 +1,20 @@
+{
+  "name": "@mjai/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup src/*",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.6.4",
+  "dependencies": {
+    "@mjai/types": "workspace:^"
+  }
+}
