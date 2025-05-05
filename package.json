@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "types": "pnpm -F \"types\"",
+  },
   "keywords": [],
   "author": "",
   "packageManager": "pnpm@10.6.4",

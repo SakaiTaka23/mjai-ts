@@ -1,0 +1,19 @@
+{
+  "name": "@mjai/types",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/*",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
+  },
+  "packageManager": "pnpm@10.6.4",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
+  }
+}
