@@ -1,0 +1,17 @@
+{
+  "name": "mjai-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "packageManager": "pnpm@10.6.4",
+  "devDependencies": {
+    "@mjai/eslint-config": "workspace:^",
+    "@mjai/prettier-config": "workspace:^",
+    "@mjai/tsconfig-config": "workspace:^",
+    "eslint": "^9.26.0",
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0"
+  }
+}
