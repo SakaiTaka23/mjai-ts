@@ -1,5 +1,6 @@
 import { Event } from '@mjai/types';
 
-export interface BaseState {
-  handle(event: Event): boolean;
+export interface BaseState<T> {
+  handle(event: Event): void;
+  get(): T;
 }
