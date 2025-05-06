@@ -1,10 +1,13 @@
-import { Ankan, Event, StartKyoku } from '@mjai/types';
+import { Ankan, Event, StartKyoku, Tsumo } from '@mjai/types';
 
 import { BaseState } from './BaseState';
 import { HandState } from './types/Tehai';
+import { removeTehai } from './utils/Editor';
 
-export const TehaiState = (start: StartKyoku): BaseState => {
-  const tehais: [HandState, HandState, HandState, HandState] = [
+export const TehaiState = (
+  start: StartKyoku,
+): BaseState<[HandState, HandState, HandState, HandState]> => {
+  let tehais: [HandState, HandState, HandState, HandState] = [
     {
       tehai: start.tehais[0],
       tsumo: null,
@@ -28,12 +31,14 @@ export const TehaiState = (start: StartKyoku): BaseState => {
   ];
   const handlers = {
     ankan: ankanHandler,
+    tsumo: tsumoHandler,
   };
 
-  const handle = (event: Event): boolean => {
+  const handle = (event: Event): void => {
     switch (event.type) {
       case 'ankan':
-        return handlers.ankan.handle(event, tehais);
+        tehais = handlers.ankan.handle(event, tehais);
+        break;
       case 'chi':
         break;
       case 'dahai':
@@ -63,13 +68,18 @@ export const TehaiState = (start: StartKyoku): BaseState => {
       case 'start_kyoku':
         break;
       case 'tsumo':
+        tehais = handlers.tsumo.handle(event, tehais);
         break;
     }
-    return false;
+  };
+
+  const get = (): [HandState, HandState, HandState, HandState] => {
+    return tehais;
   };
 
   return {
     handle,
+    get,
   };
 };
 
@@ -77,16 +87,43 @@ interface EventHandler<T extends Event> {
   handle(
     event: T,
     tehais: [HandState, HandState, HandState, HandState],
-  ): boolean;
+  ): [HandState, HandState, HandState, HandState];
 }
 
 const ankanHandler: EventHandler<Ankan> = {
   handle: (
     event: Ankan,
     tehais: [HandState, HandState, HandState, HandState],
-  ): boolean => {
+  ): [HandState, HandState, HandState, HandState] => {
     const tehai = tehais[event.actor];
+    if (event.consumed.includes(tehai.tsumo!)) {
+      tehai.tehai.push(tehai.tsumo!);
+      tehai.tsumo = null;
+    }
+    removeTehai(event.consumed[0], tehai.tehai);
+    removeTehai(event.consumed[1], tehai.tehai);
+    removeTehai(event.consumed[2], tehai.tehai);
+    removeTehai(event.consumed[3], tehai.tehai);
+    tehai.fuuros.push({
+      type: 'ankan',
+      consumed: event.consumed,
+      actor: '0',
+    });
 
-    return true;
+    tehais[event.actor] = tehai;
+    return tehais;
+  },
+};
+
+const tsumoHandler: EventHandler<Tsumo> = {
+  handle: (
+    event: Tsumo,
+    tehais: [HandState, HandState, HandState, HandState],
+  ): [HandState, HandState, HandState, HandState] => {
+    const tehai = tehais[event.actor];
+    tehai.tsumo = event.pai;
+
+    tehais[event.actor] = tehai;
+    return tehais;
   },
 };
