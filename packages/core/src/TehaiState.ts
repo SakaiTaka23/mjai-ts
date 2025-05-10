@@ -1,5 +1,6 @@
 import {
   Ankan,
+  Chi,
   Dahai,
   Daiminkan,
   Event,
@@ -41,6 +42,7 @@ export const TehaiState = (
   ];
   const handlers = {
     ankan: ankanHandler,
+    chi: chiHandler,
     tsumo: tsumoHandler,
     dahai: dahaiHandler,
     daiminkan: daiminkanHandler,
@@ -54,6 +56,7 @@ export const TehaiState = (
         tehais = handlers.ankan.handle(event, tehais);
         break;
       case 'chi':
+        tehais = handlers.chi.handle(event, tehais);
         break;
       case 'dahai':
         tehais = handlers.dahai.handle(event, tehais);
@@ -122,6 +125,22 @@ const ankanHandler: EventHandler<Ankan> = {
     removeTehai(event.consumed[1], tehai.tehai);
     removeTehai(event.consumed[2], tehai.tehai);
     removeTehai(event.consumed[3], tehai.tehai);
+    tehai.fuuros.push(event);
+
+    tehais[event.actor] = tehai;
+    return tehais;
+  },
+};
+
+const chiHandler: EventHandler<Chi> = {
+  handle: (
+    event: Chi,
+    tehais: [HandState, HandState, HandState, HandState],
+  ): [HandState, HandState, HandState, HandState] => {
+    const tehai = tehais[event.actor];
+
+    removeTehai(event.consumed[0], tehai.tehai);
+    removeTehai(event.consumed[1], tehai.tehai);
     tehai.fuuros.push(event);
 
     tehais[event.actor] = tehai;

@@ -1,5 +1,6 @@
 import {
   Ankan,
+  Chi,
   Dahai,
   Daiminkan,
   Kakan,
@@ -94,6 +95,61 @@ describe('test Ankan event', () => {
         type: 'ankan',
         actor: '0',
         consumed: ['1m', '1m', '1m', '1m'],
+      },
+    ]);
+  });
+});
+
+describe('test Chi event', () => {
+  it('should chi', () => {
+    const startHand: initialHand = [
+      '1m',
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+      '3p',
+      '4p',
+    ];
+    const startKyoku = mockStartKyoku(startHand);
+    const tehaiState = TehaiState(startKyoku);
+
+    const chiEvent: Chi = {
+      type: 'chi',
+      actor: '0',
+      target: '1',
+      pai: '3p',
+      consumed: ['1p', '2p'],
+    };
+    tehaiState.handle(chiEvent);
+
+    const actual = tehaiState.get()[0];
+    expect(actual.tehai).toEqual([
+      '1m',
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '3p',
+      '4p',
+    ]);
+    expect(actual.fuuros).toEqual([
+      {
+        type: 'chi',
+        actor: '0',
+        target: '1',
+        pai: '3p',
+        consumed: ['1p', '2p'],
       },
     ]);
   });
