@@ -1,4 +1,4 @@
-import { Ankan, Dahai, Event, StartKyoku, Tsumo } from '@mjai/types';
+import { Ankan, Dahai, Daiminkan, Event, StartKyoku, Tsumo } from '@mjai/types';
 
 import { BaseState } from './BaseState';
 import { HandState } from './types/Tehai';
@@ -34,6 +34,7 @@ export const TehaiState = (
     ankan: ankanHandler,
     tsumo: tsumoHandler,
     dahai: dahaiHandler,
+    daiminkan: daiminkanHandler,
   };
 
   const handle = (event: Event): void => {
@@ -47,6 +48,7 @@ export const TehaiState = (
         tehais = handlers.dahai.handle(event, tehais);
         break;
       case 'daiminkan':
+        tehais = handlers.daiminkan.handle(event, tehais);
         break;
       case 'dora':
         break;
@@ -107,11 +109,7 @@ const ankanHandler: EventHandler<Ankan> = {
     removeTehai(event.consumed[1], tehai.tehai);
     removeTehai(event.consumed[2], tehai.tehai);
     removeTehai(event.consumed[3], tehai.tehai);
-    tehai.fuuros.push({
-      type: 'ankan',
-      consumed: event.consumed,
-      actor: '0',
-    });
+    tehai.fuuros.push(event);
 
     tehais[event.actor] = tehai;
     return tehais;
@@ -144,6 +142,23 @@ const dahaiHandler: EventHandler<Dahai> = {
       tehai.tehai.push(event.pai);
       tehai.tehai = sortHand(removeTehai(event.pai, tehai.tehai));
     }
+
+    tehais[event.actor] = tehai;
+    return tehais;
+  },
+};
+
+const daiminkanHandler: EventHandler<Daiminkan> = {
+  handle(
+    event: Daiminkan,
+    tehais: [HandState, HandState, HandState, HandState],
+  ): [HandState, HandState, HandState, HandState] {
+    const tehai = tehais[event.actor];
+
+    const tehai1 = removeTehai(event.consumed[0], tehai.tehai);
+    const tehai2 = removeTehai(event.consumed[1], tehai1);
+    tehai.tehai = removeTehai(event.consumed[2], tehai2);
+    tehai.fuuros.push(event);
 
     tehais[event.actor] = tehai;
     return tehais;

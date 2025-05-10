@@ -1,4 +1,4 @@
-import { Ankan, Dahai, StartKyoku, Tile, Tsumo } from '@mjai/types';
+import { Ankan, Dahai, Daiminkan, StartKyoku, Tile, Tsumo } from '@mjai/types';
 import { describe, expect, it } from 'vitest';
 
 import { TehaiState } from '../TehaiState';
@@ -176,5 +176,59 @@ describe('test Dahai event', () => {
     ]);
     expect(actual.tsumo).toEqual(null);
     expect(actual.fuuros).toEqual([]);
+  });
+});
+
+describe('test Daiminkan event', () => {
+  it('should daiminkan', () => {
+    const startHand: initialHand = [
+      '1m',
+      '1m',
+      '1m',
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+    ];
+    const startKyoku = mockStartKyoku(startHand);
+    const tehaiState = TehaiState(startKyoku);
+
+    const daiminkanEvent: Daiminkan = {
+      type: 'daiminkan',
+      actor: '0',
+      target: '1',
+      pai: '1m',
+      consumed: ['1m', '1m', '1m'],
+    };
+    tehaiState.handle(daiminkanEvent);
+
+    const actual = tehaiState.get()[0];
+    expect(actual.tehai).toEqual([
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+    ]);
+    expect(actual.fuuros).toEqual([
+      {
+        type: 'daiminkan',
+        actor: '0',
+        target: '1',
+        pai: '1m',
+        consumed: ['1m', '1m', '1m'],
+      },
+    ]);
   });
 });
