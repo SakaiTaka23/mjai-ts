@@ -1,4 +1,13 @@
-import { Ankan, Dahai, Daiminkan, StartKyoku, Tile, Tsumo } from '@mjai/types';
+import {
+  Ankan,
+  Dahai,
+  Daiminkan,
+  Kakan,
+  Pon,
+  StartKyoku,
+  Tile,
+  Tsumo,
+} from '@mjai/types';
 import { describe, expect, it } from 'vitest';
 
 import { TehaiState } from '../TehaiState';
@@ -228,6 +237,123 @@ describe('test Daiminkan event', () => {
         target: '1',
         pai: '1m',
         consumed: ['1m', '1m', '1m'],
+      },
+    ]);
+  });
+});
+
+describe('test Kakan event', () => {
+  it('should kakan', () => {
+    const startHand: initialHand = [
+      '1m',
+      '1m',
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+      '3p',
+    ];
+    const startKyoku = mockStartKyoku(startHand);
+    const tehaiState = TehaiState(startKyoku);
+
+    const ponEvent: Pon = {
+      type: 'pon',
+      actor: '0',
+      target: '1',
+      pai: '1m',
+      consumed: ['1m', '1m'],
+    };
+    tehaiState.handle(ponEvent);
+
+    const kakanEvent: Kakan = {
+      type: 'kakan',
+      actor: '0',
+      pai: '1m',
+      consumed: ['1m', '1m', '1m'],
+    };
+    tehaiState.handle(kakanEvent);
+
+    const actual = tehaiState.get()[0];
+    expect(actual.tehai).toEqual([
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+      '3p',
+    ]);
+    expect(actual.fuuros).toEqual([
+      {
+        type: 'kakan',
+        actor: '0',
+        pai: '1m',
+        consumed: ['1m', '1m', '1m'],
+      },
+    ]);
+  });
+});
+
+describe('test Pon event', () => {
+  it('should pon', () => {
+    const startHand: initialHand = [
+      '1m',
+      '1m',
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+      '3p',
+    ];
+    const startKyoku = mockStartKyoku(startHand);
+    const tehaiState = TehaiState(startKyoku);
+
+    const ponEvent: Pon = {
+      type: 'pon',
+      actor: '0',
+      target: '1',
+      pai: '1m',
+      consumed: ['1m', '1m'],
+    };
+    tehaiState.handle(ponEvent);
+
+    const actual = tehaiState.get()[0];
+    expect(actual.tehai).toEqual([
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+      '3p',
+    ]);
+    expect(actual.fuuros).toEqual([
+      {
+        type: 'pon',
+        actor: '0',
+        target: '1',
+        pai: '1m',
+        consumed: ['1m', '1m'],
       },
     ]);
   });

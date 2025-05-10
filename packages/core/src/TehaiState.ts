@@ -1,4 +1,13 @@
-import { Ankan, Dahai, Daiminkan, Event, StartKyoku, Tsumo } from '@mjai/types';
+import {
+  Ankan,
+  Dahai,
+  Daiminkan,
+  Event,
+  Kakan,
+  Pon,
+  StartKyoku,
+  Tsumo,
+} from '@mjai/types';
 
 import { BaseState } from './BaseState';
 import { HandState } from './types/Tehai';
@@ -35,6 +44,8 @@ export const TehaiState = (
     tsumo: tsumoHandler,
     dahai: dahaiHandler,
     daiminkan: daiminkanHandler,
+    kakan: kakanHandler,
+    pon: ponHandler,
   };
 
   const handle = (event: Event): void => {
@@ -59,8 +70,10 @@ export const TehaiState = (
       case 'hora':
         break;
       case 'kakan':
+        tehais = handlers.kakan.handle(event, tehais);
         break;
       case 'pon':
+        tehais = handlers.pon.handle(event, tehais);
         break;
       case 'reach':
         break;
@@ -155,9 +168,51 @@ const daiminkanHandler: EventHandler<Daiminkan> = {
   ): [HandState, HandState, HandState, HandState] {
     const tehai = tehais[event.actor];
 
-    const tehai1 = removeTehai(event.consumed[0], tehai.tehai);
-    const tehai2 = removeTehai(event.consumed[1], tehai1);
-    tehai.tehai = removeTehai(event.consumed[2], tehai2);
+    removeTehai(event.consumed[0], tehai.tehai);
+    removeTehai(event.consumed[1], tehai.tehai);
+    removeTehai(event.consumed[2], tehai.tehai);
+    tehai.fuuros.push(event);
+
+    tehais[event.actor] = tehai;
+    return tehais;
+  },
+};
+
+const kakanHandler: EventHandler<Kakan> = {
+  handle(
+    event: Kakan,
+    tehais: [HandState, HandState, HandState, HandState],
+  ): [HandState, HandState, HandState, HandState] {
+    const tehai = tehais[event.actor];
+    tehai.fuuros = tehai.fuuros.filter(
+      (fuuro) =>
+        !(
+          fuuro.type === 'pon' &&
+          fuuro.pai === event.pai &&
+          fuuro.consumed.every((tile) => event.consumed.includes(tile))
+        ),
+    );
+
+    removeTehai(event.consumed[0], tehai.tehai);
+    removeTehai(event.consumed[1], tehai.tehai);
+    removeTehai(event.consumed[2], tehai.tehai);
+    tehai.tsumo = null;
+    tehai.fuuros.push(event);
+
+    tehais[event.actor] = tehai;
+    return tehais;
+  },
+};
+
+const ponHandler: EventHandler<Pon> = {
+  handle(
+    event: Pon,
+    tehais: [HandState, HandState, HandState, HandState],
+  ): [HandState, HandState, HandState, HandState] {
+    const tehai = tehais[event.actor];
+
+    removeTehai(event.consumed[0], tehai.tehai);
+    removeTehai(event.consumed[1], tehai.tehai);
     tehai.fuuros.push(event);
 
     tehais[event.actor] = tehai;
