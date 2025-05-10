@@ -64,32 +64,24 @@ export const TehaiState = (
       case 'daiminkan':
         tehais = handlers.daiminkan.handle(event, tehais);
         break;
-      case 'dora':
-        break;
-      case 'endgame':
-        break;
-      case 'end_kyoku':
-        break;
-      case 'hora':
-        break;
       case 'kakan':
         tehais = handlers.kakan.handle(event, tehais);
         break;
       case 'pon':
         tehais = handlers.pon.handle(event, tehais);
         break;
-      case 'reach':
-        break;
-      case 'reach_accepted':
-        break;
-      case 'ryukyoku':
-        break;
-      case 'start_game':
-        break;
-      case 'start_kyoku':
-        break;
       case 'tsumo':
         tehais = handlers.tsumo.handle(event, tehais);
+        break;
+      case 'dora':
+      case 'endgame':
+      case 'end_kyoku':
+      case 'hora':
+      case 'reach':
+      case 'reach_accepted':
+      case 'ryukyoku':
+      case 'start_game':
+      case 'start_kyoku':
         break;
     }
   };
