@@ -6,6 +6,7 @@
   "scripts": {
     "types": "pnpm -F \"types\"",
     "core": "pnpm -F \"core\"",
+    "parser": "pnpm -F \"parser\"",
     "test": "vitest"
   },
   "keywords": [],

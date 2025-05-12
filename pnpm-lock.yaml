@@ -66,6 +66,15 @@ importers:
         specifier: ^8.31.1
         version: 8.31.1(eslint@9.26.0)(typescript@5.8.3)
 
+  packages/parser:
+    dependencies:
+      '@mjai/types':
+        specifier: workspace:^
+        version: link:../types
+      zod:
+        specifier: ^3.24.4
+        version: 3.24.4
+
   packages/prettier-config: {}
 
   packages/tsconfig-config: {}
@@ -2108,6 +2117,9 @@ packages:
 
   zod@3.24.3:
     resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
+
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
 
 snapshots:
 
@@ -4287,3 +4299,5 @@ snapshots:
       zod: 3.24.3
 
   zod@3.24.3: {}
+
+  zod@3.24.4: {}
