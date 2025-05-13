@@ -6,8 +6,8 @@ export const ParseInput = (input: unknown): Event[][] => {
   const parsedInput = MjaiLogInputSchema.parse(input);
   validateInput(parsedInput);
 
-  const groupOutput: MjaiLogInput[][] = [];
-  let currentGroup: MjaiLogInput[] = [];
+  const groupOutput: Event[][] = [];
+  let currentGroup: Event[] = [];
   parsedInput.forEach((event) => {
     if (event.type === 'start_game' || event.type === 'end_game') {
       return;
@@ -19,7 +19,7 @@ export const ParseInput = (input: unknown): Event[][] => {
       }
       currentGroup = [];
     }
-    currentGroup.push(event);
+    currentGroup.push(event as Event);
   });
 
   if (currentGroup.length > 0) {
