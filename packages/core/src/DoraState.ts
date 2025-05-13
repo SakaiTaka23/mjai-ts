@@ -1,8 +1,8 @@
 import { Event, StartKyoku, Tile } from '@mjai/types';
 
-import { BaseState } from './BaseState';
+import { InternalBaseState } from './BaseState';
 
-export const DoraState = (start: StartKyoku): BaseState<Tile[]> => {
+export const DoraState = (start: StartKyoku): InternalBaseState<Tile[]> => {
   const doraMarkers: Tile[] = [start.doraMarker];
 
   const handle = (event: Event): void => {

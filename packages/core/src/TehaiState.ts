@@ -10,14 +10,14 @@ import {
   Tsumo,
 } from '@mjai/types';
 
-import { BaseState } from './BaseState';
+import { InternalBaseState } from './BaseState';
 import { HandState } from './types/Tehai';
 import { removeTehai } from './utils/Editor';
 import { sortHand } from './utils/SortHand';
 
 export const TehaiState = (
   start: StartKyoku,
-): BaseState<[HandState, HandState, HandState, HandState]> => {
+): InternalBaseState<[HandState, HandState, HandState, HandState]> => {
   let tehais: [HandState, HandState, HandState, HandState] = [
     {
       tehai: start.tehais[0],

@@ -1,6 +1,9 @@
 import { Event } from '@mjai/types';
 
 export interface BaseState<T> {
-  handle(event: Event): void;
   get(): T;
+}
+
+export interface InternalBaseState<T> extends BaseState<T> {
+  handle(event: Event): void;
 }

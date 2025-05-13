@@ -1,10 +1,10 @@
 import { Event, StartKyoku } from '@mjai/types';
 
-import { BaseState } from './BaseState';
+import { InternalBaseState } from './BaseState';
 
 export const ScoreState = (
   start: StartKyoku,
-): BaseState<[number, number, number, number]> => {
+): InternalBaseState<[number, number, number, number]> => {
   const scores: [number, number, number, number] = start.scores;
 
   const handle = (event: Event): void => {

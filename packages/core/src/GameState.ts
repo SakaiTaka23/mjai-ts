@@ -1,6 +1,6 @@
-import { Tile } from '@mjai/types';
+import { Event, Tile } from '@mjai/types';
 
-import { BaseState } from './BaseState';
+import { BaseState, InternalBaseState } from './BaseState';
 import { Kawa } from './types/Kawa';
 import { HandState } from './types/Tehai';
 
@@ -9,6 +9,7 @@ export interface GameState {
   DoraState: DoraState;
   ScoreState: ScoreState;
   KawaState: KawaState;
+  handle: (e: Event) => void;
 }
 
 //  extend so that we can add more utility functions
@@ -29,3 +30,30 @@ export interface KawaState
     kawas: [Kawa, Kawa, Kawa, Kawa];
     remaining: number;
   }> {}
+
+export interface InternalGameState {
+  TehaiState: InternalTehaiState;
+  DoraState: InternalDoraState;
+  ScoreState: InternalScoreState;
+  KawaState: InternalKawaState;
+  handle(event: Event): void;
+}
+
+export interface InternalTehaiState
+  extends TehaiState,
+    InternalBaseState<[HandState, HandState, HandState, HandState]> {}
+
+export interface InternalDoraState
+  extends DoraState,
+    InternalBaseState<Tile[]> {}
+
+export interface InternalScoreState
+  extends ScoreState,
+    InternalBaseState<[number, number, number, number]> {}
+
+export interface InternalKawaState
+  extends KawaState,
+    InternalBaseState<{
+      kawas: [Kawa, Kawa, Kawa, Kawa];
+      remaining: number;
+    }> {}
