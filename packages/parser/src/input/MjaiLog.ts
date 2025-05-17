@@ -2,97 +2,129 @@ import { z } from 'zod';
 
 import { PlayerIDInput, TileInput } from './common';
 
-const MjaiLogSchema = z
+export const AnkanSchema = z.object({
+  type: z.literal('ankan'),
+  actor: PlayerIDInput,
+  consumed: z.array(TileInput).length(4),
+});
+
+export const ChiSchema = z.object({
+  type: z.literal('chi'),
+  actor: PlayerIDInput,
+  target: PlayerIDInput,
+  pai: TileInput,
+  consumed: z.array(TileInput).length(2),
+});
+
+export const DahaiSchema = z.object({
+  type: z.literal('dahai'),
+  actor: PlayerIDInput,
+  pai: TileInput,
+  tsumogiri: z.boolean(),
+});
+
+export const DaiminkanSchema = z.object({
+  type: z.literal('daiminkan'),
+  actor: PlayerIDInput,
+  target: PlayerIDInput,
+  pai: TileInput,
+  consumed: z.array(TileInput).length(3),
+});
+
+export const DoraSchema = z.object({
+  type: z.literal('dora'),
+  dora_marker: TileInput,
+});
+
+export const EndGameSchema = z.object({
+  type: z.literal('end_game'),
+});
+
+export const EndKyokuSchema = z.object({
+  type: z.literal('end_kyoku'),
+});
+
+export const HoraSchema = z.object({
+  type: z.literal('hora'),
+  actor: PlayerIDInput,
+  target: PlayerIDInput,
+  deltas: z.array(z.number()).length(4),
+  ura_markers: z.array(TileInput).min(0).max(4),
+});
+
+export const KakanSchema = z.object({
+  type: z.literal('kakan'),
+  actor: PlayerIDInput,
+  pai: TileInput,
+  consumed: z.array(TileInput).length(3),
+});
+
+export const PonSchema = z.object({
+  type: z.literal('pon'),
+  actor: PlayerIDInput,
+  target: PlayerIDInput,
+  pai: TileInput,
+  consumed: z.array(TileInput).length(2),
+});
+
+export const ReachSchema = z.object({
+  type: z.literal('reach'),
+  actor: PlayerIDInput,
+});
+
+export const ReachAcceptedSchema = z.object({
+  type: z.literal('reach_accepted'),
+  actor: PlayerIDInput,
+});
+
+export const RyukyokuSchema = z.object({
+  type: z.literal('ryukyoku'),
+  deltas: z.array(z.number()).length(4),
+});
+
+export const StartGameSchema = z.object({
+  type: z.literal('start_game'),
+  names: z.array(z.string()).length(4),
+  kyoku_first: PlayerIDInput,
+  aka_flag: z.boolean(),
+});
+
+export const StartKyokuSchema = z.object({
+  type: z.literal('start_kyoku'),
+  bakaze: z.enum(['E', 'S', 'W']),
+  dora_marker: TileInput,
+  kyoku: z.number().min(0).max(11),
+  honba: z.number().min(0),
+  kyotaku: z.number().min(0),
+  oya: PlayerIDInput,
+  scores: z.array(z.number()).length(4),
+  tehais: z.array(z.array(TileInput).length(13)).length(4),
+});
+
+export const TsumoSchema = z.object({
+  type: z.literal('tsumo'),
+  actor: PlayerIDInput,
+  pai: TileInput,
+});
+
+export const MjaiLogSchema = z
   .discriminatedUnion('type', [
-    z.object({
-      type: z.literal('ankan'),
-      actor: PlayerIDInput,
-      consumed: z.array(TileInput).length(4),
-    }),
-    z.object({
-      type: z.literal('chi'),
-      actor: PlayerIDInput,
-      target: PlayerIDInput,
-      pai: TileInput,
-      consumed: z.array(TileInput).length(2),
-    }),
-    z.object({
-      type: z.literal('dahai'),
-      actor: PlayerIDInput,
-      pai: TileInput,
-      tsumogiri: z.boolean(),
-    }),
-    z.object({
-      type: z.literal('daiminkan'),
-      actor: PlayerIDInput,
-      target: PlayerIDInput,
-      pai: TileInput,
-      consumed: z.array(TileInput).length(3),
-    }),
-    z.object({
-      type: z.literal('dora'),
-      dora_marker: TileInput,
-    }),
-    z.object({
-      type: z.literal('end_game'),
-    }),
-    z.object({
-      type: z.literal('end_kyoku'),
-    }),
-    z.object({
-      type: z.literal('hora'),
-      actor: PlayerIDInput,
-      target: PlayerIDInput,
-      deltas: z.array(z.number()).length(4),
-      ura_markers: z.array(TileInput).min(0).max(4),
-    }),
-    z.object({
-      type: z.literal('kakan'),
-      actor: PlayerIDInput,
-      pai: TileInput,
-      consumed: z.array(TileInput).length(3),
-    }),
-    z.object({
-      type: z.literal('pon'),
-      actor: PlayerIDInput,
-      target: PlayerIDInput,
-      pai: TileInput,
-      consumed: z.array(TileInput).length(2),
-    }),
-    z.object({
-      type: z.literal('reach'),
-      actor: PlayerIDInput,
-    }),
-    z.object({
-      type: z.literal('reach_accepted'),
-      actor: PlayerIDInput,
-    }),
-    z.object({
-      type: z.literal('ryukyoku'),
-      deltas: z.array(z.number()).length(4),
-    }),
-    z.object({
-      type: z.literal('start_game'),
-      names: z.array(z.string()).length(4),
-      kyoku_first: PlayerIDInput,
-      aka_flag: z.boolean(),
-    }),
-    z.object({
-      type: z.literal('start_kyoku'),
-      bakaze: z.enum(['E', 'S', 'W']),
-      dora_marker: TileInput,
-      kyoku: z.number().min(0).max(11),
-      honba: z.number().min(0),
-      kyotaku: z.number().min(0),
-      oya: PlayerIDInput,
-      scores: z.array(z.number()).length(4),
-      tehais: z.array(z.array(TileInput).length(13)).length(4),
-    }),
-    z.object({
-      type: z.literal('tsumo'),
-      actor: PlayerIDInput,
-      pai: TileInput,
-    }),
+    AnkanSchema,
+    ChiSchema,
+    DahaiSchema,
+    DaiminkanSchema,
+    DoraSchema,
+    EndGameSchema,
+    EndKyokuSchema,
+    HoraSchema,
+    KakanSchema,
+    PonSchema,
+    ReachSchema,
+    ReachAcceptedSchema,
+    RyukyokuSchema,
+    StartGameSchema,
+    StartKyokuSchema,
+    TsumoSchema,
   ])
   .transform((data) => {
     switch (data.type) {

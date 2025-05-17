@@ -18,5 +18,11 @@
   "dependencies": {
     "@mjai/types": "workspace:^",
     "zod": "^3.24.4"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   }
 }
