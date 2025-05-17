@@ -187,7 +187,7 @@ describe('should parse input', () => {
           kyoku: 1,
           honba: 0,
           kyotaku: 0,
-          oya: 0,
+          oya: '0',
           scores: [25000, 25000, 25000, 25000],
           tehais: [
             [
@@ -254,7 +254,7 @@ describe('should parse input', () => {
         },
         {
           type: 'tsumo',
-          actor: 0,
+          actor: '0',
           pai: 'N',
         },
         {
@@ -269,7 +269,7 @@ describe('should parse input', () => {
           kyoku: 1,
           honba: 0,
           kyotaku: 0,
-          oya: 0,
+          oya: '0',
           scores: [25000, 25000, 25000, 25000],
           tehais: [
             [
@@ -336,7 +336,7 @@ describe('should parse input', () => {
         },
         {
           type: 'tsumo',
-          actor: 0,
+          actor: '0',
           pai: 'N',
         },
         {
