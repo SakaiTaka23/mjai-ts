@@ -55,6 +55,9 @@ export const TileInput = z.enum([
   'blank',
 ]);
 
-export const PlayerIDInput = z
-  .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-  .transform((val) => String(val) as '0' | '1' | '2' | '3');
+export const PlayerIDInput = z.union([
+  z.literal(0),
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+]);
