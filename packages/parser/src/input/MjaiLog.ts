@@ -5,7 +5,7 @@ import { PlayerIDInput, TileInput } from './common';
 export const AnkanSchema = z.object({
   type: z.literal('ankan'),
   actor: PlayerIDInput,
-  consumed: z.array(TileInput).length(4),
+  consumed: z.tuple([TileInput, TileInput, TileInput, TileInput]),
 });
 
 export const ChiSchema = z.object({
@@ -13,7 +13,7 @@ export const ChiSchema = z.object({
   actor: PlayerIDInput,
   target: PlayerIDInput,
   pai: TileInput,
-  consumed: z.array(TileInput).length(2),
+  consumed: z.tuple([TileInput, TileInput]),
 });
 
 export const DahaiSchema = z.object({
@@ -28,7 +28,7 @@ export const DaiminkanSchema = z.object({
   actor: PlayerIDInput,
   target: PlayerIDInput,
   pai: TileInput,
-  consumed: z.array(TileInput).length(3),
+  consumed: z.tuple([TileInput, TileInput, TileInput]),
 });
 
 export const DoraSchema = z.object({
@@ -48,7 +48,7 @@ export const HoraSchema = z.object({
   type: z.literal('hora'),
   actor: PlayerIDInput,
   target: PlayerIDInput,
-  deltas: z.array(z.number()).length(4),
+  deltas: z.tuple([z.number(), z.number(), z.number(), z.number()]),
   ura_markers: z.array(TileInput).min(0).max(4),
 });
 
@@ -56,7 +56,7 @@ export const KakanSchema = z.object({
   type: z.literal('kakan'),
   actor: PlayerIDInput,
   pai: TileInput,
-  consumed: z.array(TileInput).length(3),
+  consumed: z.tuple([TileInput, TileInput, TileInput]),
 });
 
 export const PonSchema = z.object({
@@ -64,7 +64,7 @@ export const PonSchema = z.object({
   actor: PlayerIDInput,
   target: PlayerIDInput,
   pai: TileInput,
-  consumed: z.array(TileInput).length(2),
+  consumed: z.tuple([TileInput, TileInput]),
 });
 
 export const ReachSchema = z.object({
@@ -79,12 +79,12 @@ export const ReachAcceptedSchema = z.object({
 
 export const RyukyokuSchema = z.object({
   type: z.literal('ryukyoku'),
-  deltas: z.array(z.number()).length(4),
+  deltas: z.tuple([z.number(), z.number(), z.number(), z.number()]),
 });
 
 export const StartGameSchema = z.object({
   type: z.literal('start_game'),
-  names: z.array(z.string()).length(4),
+  names: z.tuple([z.string(), z.string(), z.string(), z.string()]),
   kyoku_first: PlayerIDInput,
   aka_flag: z.boolean(),
 });
@@ -97,7 +97,7 @@ export const StartKyokuSchema = z.object({
   honba: z.number().min(0),
   kyotaku: z.number().min(0),
   oya: PlayerIDInput,
-  scores: z.array(z.number()).length(4),
+  scores: z.tuple([z.number(), z.number(), z.number(), z.number()]),
   tehais: z.array(z.array(TileInput).length(13)).length(4),
 });
 
