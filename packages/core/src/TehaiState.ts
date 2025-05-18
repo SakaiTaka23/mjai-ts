@@ -74,7 +74,7 @@ export const TehaiState = (
         tehais = handlers.tsumo.handle(event, tehais);
         break;
       case 'dora':
-      case 'endgame':
+      case 'end_game':
       case 'end_kyoku':
       case 'hora':
       case 'reach':
