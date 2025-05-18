@@ -48,11 +48,8 @@ export const TileInput = z.enum([
   'F',
   'C',
 
-  // Back
-  'back',
-
-  // Error
-  'blank',
+  // Special
+  '?',
 ]);
 
 export const PlayerIDInput = z.union([
