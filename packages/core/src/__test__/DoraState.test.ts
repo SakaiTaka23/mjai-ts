@@ -40,7 +40,7 @@ const mockStartKyoku = (initialDora: Tile): StartKyoku => {
     kyoku: 0,
     honba: 0,
     kyotaku: 0,
-    oya: '0',
+    oya: 0,
     scores: [25000, 25000, 25000, 25000],
     tehais: [startHand, startHand, startHand, startHand],
   };

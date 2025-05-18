@@ -42,7 +42,7 @@ const mockStartKyoku = (
     kyoku: 0,
     honba: 0,
     kyotaku: 0,
-    oya: '0',
+    oya: 0,
     scores: initialScore,
     tehais: [startHand, startHand, startHand, startHand],
   };
@@ -62,7 +62,7 @@ describe('Score State', () => {
 
     scoreState.handle({
       type: 'reach_accepted',
-      actor: '0',
+      actor: 0,
     });
 
     expect(scoreState.get()).toEqual([24000, 25000, 25000, 25000]);

@@ -37,7 +37,7 @@ const mockStartKyoku = (testHand: initialHand): StartKyoku => {
     kyoku: 0,
     honba: 0,
     kyotaku: 0,
-    oya: '0',
+    oya: 0,
     scores: [25000, 25000, 25000, 25000],
     tehais: [testHand, testHand, testHand, testHand],
   };
@@ -64,14 +64,14 @@ describe('test Ankan event', () => {
     const tehaiState = TehaiState(startKyoku);
     const tsumoEvent: Tsumo = {
       type: 'tsumo',
-      actor: '0',
+      actor: 0,
       pai: '1m',
     };
     tehaiState.handle(tsumoEvent);
 
     const anKanEven: Ankan = {
       type: 'ankan',
-      actor: '0',
+      actor: 0,
       consumed: ['1m', '1m', '1m', '1m'],
     };
     tehaiState.handle(anKanEven);
@@ -93,7 +93,7 @@ describe('test Ankan event', () => {
     expect(actual.fuuros).toEqual([
       {
         type: 'ankan',
-        actor: '0',
+        actor: 0,
         consumed: ['1m', '1m', '1m', '1m'],
       },
     ]);
@@ -122,8 +122,8 @@ describe('test Chi event', () => {
 
     const chiEvent: Chi = {
       type: 'chi',
-      actor: '0',
-      target: '1',
+      actor: 0,
+      target: 1,
       pai: '3p',
       consumed: ['1p', '2p'],
     };
@@ -146,8 +146,8 @@ describe('test Chi event', () => {
     expect(actual.fuuros).toEqual([
       {
         type: 'chi',
-        actor: '0',
-        target: '1',
+        actor: 0,
+        target: 1,
         pai: '3p',
         consumed: ['1p', '2p'],
       },
@@ -177,7 +177,7 @@ describe('test Tsumo event', () => {
 
     const tsumoEvent: Tsumo = {
       type: 'tsumo',
-      actor: '0',
+      actor: 0,
       pai: '5m',
     };
     tehaiState.handle(tsumoEvent);
@@ -210,14 +210,14 @@ describe('test Dahai event', () => {
 
     const tsumoEvent: Tsumo = {
       type: 'tsumo',
-      actor: '0',
+      actor: 0,
       pai: '5p',
     };
     tehaiState.handle(tsumoEvent);
 
     const dahaiEvent: Dahai = {
       type: 'dahai',
-      actor: '0',
+      actor: 0,
       pai: '5p',
       tsumogiri: true,
     };
@@ -266,8 +266,8 @@ describe('test Daiminkan event', () => {
 
     const daiminkanEvent: Daiminkan = {
       type: 'daiminkan',
-      actor: '0',
-      target: '1',
+      actor: 0,
+      target: 1,
       pai: '1m',
       consumed: ['1m', '1m', '1m'],
     };
@@ -289,8 +289,8 @@ describe('test Daiminkan event', () => {
     expect(actual.fuuros).toEqual([
       {
         type: 'daiminkan',
-        actor: '0',
-        target: '1',
+        actor: 0,
+        target: 1,
         pai: '1m',
         consumed: ['1m', '1m', '1m'],
       },
@@ -320,8 +320,8 @@ describe('test Kakan event', () => {
 
     const ponEvent: Pon = {
       type: 'pon',
-      actor: '0',
-      target: '1',
+      actor: 0,
+      target: 1,
       pai: '1m',
       consumed: ['1m', '1m'],
     };
@@ -329,7 +329,7 @@ describe('test Kakan event', () => {
 
     const kakanEvent: Kakan = {
       type: 'kakan',
-      actor: '0',
+      actor: 0,
       pai: '1m',
       consumed: ['1m', '1m', '1m'],
     };
@@ -352,7 +352,7 @@ describe('test Kakan event', () => {
     expect(actual.fuuros).toEqual([
       {
         type: 'kakan',
-        actor: '0',
+        actor: 0,
         pai: '1m',
         consumed: ['1m', '1m', '1m'],
       },
@@ -382,8 +382,8 @@ describe('test Pon event', () => {
 
     const ponEvent: Pon = {
       type: 'pon',
-      actor: '0',
-      target: '1',
+      actor: 0,
+      target: 1,
       pai: '1m',
       consumed: ['1m', '1m'],
     };
@@ -406,8 +406,8 @@ describe('test Pon event', () => {
     expect(actual.fuuros).toEqual([
       {
         type: 'pon',
-        actor: '0',
-        target: '1',
+        actor: 0,
+        target: 1,
         pai: '1m',
         consumed: ['1m', '1m'],
       },

@@ -38,7 +38,7 @@ describe('Kawa State', () => {
 
     const dahaiEvent: Dahai = {
       type: 'dahai',
-      actor: '0',
+      actor: 0,
       pai: '1m',
       tsumogiri: true,
     };
@@ -53,13 +53,13 @@ describe('Kawa State', () => {
 
     const reachEvent: Reach = {
       type: 'reach',
-      actor: '0',
+      actor: 0,
     };
     kawaState.handle(reachEvent);
 
     const dahaiEvent: Dahai = {
       type: 'dahai',
-      actor: '0',
+      actor: 0,
       pai: '5m',
       tsumogiri: true,
     };
@@ -75,7 +75,7 @@ describe('Kawa State', () => {
 
     const tsumoEvent: Tsumo = {
       type: 'tsumo',
-      actor: '0',
+      actor: 0,
       pai: '1m',
     };
     kawaState.handle(tsumoEvent);
@@ -111,7 +111,7 @@ describe('Kawa State', () => {
 
     const dahaiEvent: Dahai = {
       type: 'dahai',
-      actor: '1',
+      actor: 1,
       pai: '4m',
       tsumogiri: true,
     };
@@ -119,8 +119,8 @@ describe('Kawa State', () => {
 
     const chiEvent: Chi = {
       type: 'chi',
-      actor: '0',
-      target: '1',
+      actor: 0,
+      target: 1,
       pai: '4m',
       consumed: ['2m', '3m'],
     };
@@ -135,7 +135,7 @@ describe('Kawa State', () => {
 
     const reachEvent: Reach = {
       type: 'reach',
-      actor: '0',
+      actor: 0,
     };
     kawaState.handle(reachEvent);
 
@@ -148,13 +148,13 @@ describe('Kawa State', () => {
 
     const reachEvent: Reach = {
       type: 'reach',
-      actor: '0',
+      actor: 0,
     };
     kawaState.handle(reachEvent);
 
     const dahaiEvent: Dahai = {
       type: 'dahai',
-      actor: '0',
+      actor: 0,
       pai: '5m',
       tsumogiri: false,
     };
@@ -162,7 +162,7 @@ describe('Kawa State', () => {
 
     const reachAcceptedEvent: ReachAccepted = {
       type: 'reach_accepted',
-      actor: '0',
+      actor: 0,
     };
     kawaState.handle(reachAcceptedEvent);
 
