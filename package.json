@@ -7,7 +7,8 @@
     "types": "pnpm -F \"types\"",
     "core": "pnpm -F \"core\"",
     "parser": "pnpm -F \"parser\"",
-    "test": "vitest"
+    "test": "vitest",
+    "build": "pnpm -r build"
   },
   "keywords": [],
   "author": "",
