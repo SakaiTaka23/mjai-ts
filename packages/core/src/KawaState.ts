@@ -10,7 +10,7 @@ import {
   Tsumo,
 } from '@mjai/types';
 
-import { InternalBaseState } from './BaseState';
+import { InternalKawaState } from './GameState';
 import { Kawa } from './types/Kawa';
 
 interface State {
@@ -18,7 +18,7 @@ interface State {
   remaining: number;
 }
 
-export const KawaState = (): InternalBaseState<State> => {
+export const KawaState = (): InternalKawaState => {
   let kawas: State = {
     kawas: [
       {
@@ -79,9 +79,12 @@ export const KawaState = (): InternalBaseState<State> => {
 
   const get = (): State => kawas;
 
+  const remaining = (): number => kawas.remaining;
+
   return {
     handle,
     get,
+    remaining,
   };
 };
 

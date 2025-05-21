@@ -31,13 +31,11 @@ const createInternalGameState = (start: StartKyoku): InternalGameState => {
 export const createGameState = (start: StartKyoku): GameState => {
   const internal = createInternalGameState(start);
 
-  const publicState: GameState = {
+  return {
     TehaiState: internal.TehaiState,
     DoraState: internal.DoraState,
     ScoreState: internal.ScoreState,
     KawaState: internal.KawaState,
     handle: (e: Event) => internal.handle(e),
   };
-
-  return publicState;
 };

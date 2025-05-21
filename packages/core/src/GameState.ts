@@ -24,18 +24,20 @@ export interface DoraState extends BaseState<Tile[]> {}
 export interface ScoreState
   extends BaseState<[number, number, number, number]> {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface KawaState
   extends BaseState<{
     kawas: [Kawa, Kawa, Kawa, Kawa];
     remaining: number;
-  }> {}
+  }> {
+  remaining(): number;
+}
 
 export interface InternalGameState {
   TehaiState: InternalTehaiState;
   DoraState: InternalDoraState;
   ScoreState: InternalScoreState;
   KawaState: InternalKawaState;
+
   handle(event: Event): void;
 }
 
