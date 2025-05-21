@@ -17,5 +17,10 @@
   "packageManager": "pnpm@10.6.4",
   "dependencies": {
     "@mjai/types": "workspace:^"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
   }
 }
