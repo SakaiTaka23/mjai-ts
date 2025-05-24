@@ -13,7 +13,7 @@ export const ScoreState = (start: StartKyoku): InternalScoreState => {
     return;
   };
 
-  const get = (): [number, number, number, number] => scores;
+  const get = (): [number, number, number, number] => [...scores];
 
   return {
     handle,

@@ -13,7 +13,7 @@ export const DoraState = (start: StartKyoku): InternalDoraState => {
     return;
   };
 
-  const get = (): Tile[] => doraMarkers;
+  const get = (): Tile[] => structuredClone(doraMarkers);
 
   return {
     handle,

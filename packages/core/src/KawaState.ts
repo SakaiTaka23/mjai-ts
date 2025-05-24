@@ -77,7 +77,7 @@ export const KawaState = (): InternalKawaState => {
     return;
   };
 
-  const get = (): State => kawas;
+  const get = (): State => structuredClone(kawas);
 
   const remaining = (): number => kawas.remaining;
 

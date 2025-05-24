@@ -84,9 +84,8 @@ export const TehaiState = (start: StartKyoku): InternalTehaiState => {
     }
   };
 
-  const get = (): [HandState, HandState, HandState, HandState] => {
-    return tehais;
-  };
+  const get = (): [HandState, HandState, HandState, HandState] =>
+    structuredClone(tehais);
 
   return {
     handle,
