@@ -157,13 +157,12 @@ const dahaiHandler: EventHandler<Dahai> = {
   ): [HandState, HandState, HandState, HandState] {
     const tehai = tehais[event.actor];
 
-    if (event.tsumogiri) {
-      tehai.tsumo = null;
-    } else {
+    if (!event.tsumogiri) {
       tehai.tehai.push(event.pai);
       tehai.tehai = sortHand(removeTehai(event.pai, tehai.tehai));
     }
 
+    tehai.tsumo = null;
     tehais[event.actor] = tehai;
     return tehais;
   },
