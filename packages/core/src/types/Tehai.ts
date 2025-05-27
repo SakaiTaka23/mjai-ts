@@ -6,4 +6,4 @@ export interface HandState {
   fuuros: Fuuro[];
 }
 
-type Fuuro = Ankan | Chi | Daiminkan | Kakan | Pon;
+export type Fuuro = Ankan | Chi | Daiminkan | Kakan | Pon;

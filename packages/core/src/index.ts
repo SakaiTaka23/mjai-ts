@@ -6,5 +6,5 @@ export type {
   ScoreState,
   KawaState,
 } from './GameState';
-export type { HandState } from './types/Tehai';
+export type { HandState, Fuuro } from './types/Tehai';
 export type { Kawa } from './types/Kawa';
