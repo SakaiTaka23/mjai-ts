@@ -3,6 +3,7 @@ import { Event, StartKyoku } from '@mjai/types';
 import { DoraState } from './DoraState';
 import { GameState, InternalGameState } from './GameState';
 import { KawaState } from './KawaState';
+import { KyokuState } from './KyokuState';
 import { ScoreState } from './ScoreState';
 import { TehaiState } from './TehaiState';
 
@@ -11,12 +12,14 @@ const createInternalGameState = (start: StartKyoku): InternalGameState => {
   const doraState = DoraState(start);
   const scoreState = ScoreState(start);
   const kawaState = KawaState();
+  const kyokuState = KyokuState(start);
 
   const handle = (event: Event) => {
     tehaiState.handle(event);
     doraState.handle(event);
     scoreState.handle(event);
     kawaState.handle(event);
+    kyokuState.handle(event);
   };
 
   return {
@@ -24,6 +27,7 @@ const createInternalGameState = (start: StartKyoku): InternalGameState => {
     DoraState: doraState,
     ScoreState: scoreState,
     KawaState: kawaState,
+    KyokuState: kyokuState,
     handle,
   };
 };
@@ -36,6 +40,7 @@ export const createGameState = (start: StartKyoku): GameState => {
     DoraState: internal.DoraState,
     ScoreState: internal.ScoreState,
     KawaState: internal.KawaState,
+    KyokuState: internal.KyokuState,
     handle: (e: Event) => internal.handle(e),
   };
 };

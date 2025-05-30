@@ -1,4 +1,4 @@
-import { Event, Tile } from '@mjai/types';
+import { Event, PlayerID, Tile } from '@mjai/types';
 
 import { BaseState, InternalBaseState } from './BaseState';
 import { Kawa } from './types/Kawa';
@@ -9,6 +9,7 @@ export interface GameState {
   DoraState: DoraState;
   ScoreState: ScoreState;
   KawaState: KawaState;
+  KyokuState: KyokuState;
   handle: (e: Event) => void;
 }
 
@@ -32,11 +33,31 @@ export interface KawaState
   remaining(): number;
 }
 
+export interface KyokuState
+  extends BaseState<{
+    kyoku: number;
+    honba: number;
+    kyotaku: number;
+    bakaze: 'E' | 'S' | 'W';
+    oya: PlayerID;
+  }> {
+  kyoku(): number;
+
+  honba(): number;
+
+  kyotaku(): number;
+
+  bakaze(): 'E' | 'S' | 'W';
+
+  oya(): PlayerID;
+}
+
 export interface InternalGameState {
   TehaiState: InternalTehaiState;
   DoraState: InternalDoraState;
   ScoreState: InternalScoreState;
   KawaState: InternalKawaState;
+  KyokuState: InternalKyokuState;
 
   handle(event: Event): void;
 }
@@ -58,4 +79,14 @@ export interface InternalKawaState
     InternalBaseState<{
       kawas: [Kawa, Kawa, Kawa, Kawa];
       remaining: number;
+    }> {}
+
+export interface InternalKyokuState
+  extends KyokuState,
+    InternalBaseState<{
+      kyoku: number;
+      honba: number;
+      kyotaku: number;
+      bakaze: 'E' | 'S' | 'W';
+      oya: PlayerID;
     }> {}
