@@ -40,6 +40,7 @@ export interface KyokuState
     kyotaku: number;
     bakaze: 'E' | 'S' | 'W';
     oya: PlayerID;
+    reachPlayers: Set<PlayerID>;
   }> {
   kyoku(): number;
 
@@ -50,6 +51,8 @@ export interface KyokuState
   bakaze(): 'E' | 'S' | 'W';
 
   oya(): PlayerID;
+
+  reachPlayers(): Set<PlayerID>;
 }
 
 export interface InternalGameState {
@@ -89,4 +92,5 @@ export interface InternalKyokuState
       kyotaku: number;
       bakaze: 'E' | 'S' | 'W';
       oya: PlayerID;
+      reachPlayers: Set<PlayerID>;
     }> {}

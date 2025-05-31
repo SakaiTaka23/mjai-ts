@@ -1,4 +1,4 @@
-import { Event, StartKyoku } from '@mjai/types';
+import { Event, PlayerID, StartKyoku } from '@mjai/types';
 
 import { InternalKyokuState } from './GameState';
 
@@ -8,10 +8,12 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
   let kyotaku = start.kyotaku;
   const bakaze = start.bakaze;
   const oya = start.oya;
+  const reachPlayers = new Set<PlayerID>([]);
 
   const handle = (event: Event): void => {
     if (event.type === 'reach_accepted') {
       kyotaku++;
+      reachPlayers.add(event.actor);
     }
     return;
   };
@@ -22,6 +24,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     kyotaku,
     bakaze,
     oya,
+    reachPlayers,
   });
 
   return {
@@ -32,5 +35,6 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     kyotaku: () => kyotaku,
     bakaze: () => bakaze,
     oya: () => oya,
+    reachPlayers: () => reachPlayers,
   };
 };

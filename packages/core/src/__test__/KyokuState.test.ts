@@ -72,6 +72,7 @@ describe('Kyoku State', () => {
       kyotaku: initialKyoku.kyotaku,
       bakaze: initialKyoku.bakaze,
       oya: initialKyoku.oya,
+      reachPlayers: new Set<PlayerID>([]),
     });
 
     expect(kyokuState.kyoku()).toEqual(initialKyoku.kyoku);
@@ -79,6 +80,7 @@ describe('Kyoku State', () => {
     expect(kyokuState.kyotaku()).toEqual(initialKyoku.kyotaku);
     expect(kyokuState.bakaze()).toEqual(initialKyoku.bakaze);
     expect(kyokuState.oya()).toEqual(initialKyoku.oya);
+    expect(kyokuState.reachPlayers()).toEqual(new Set<PlayerID>([]));
   });
 });
 
@@ -99,5 +101,6 @@ describe('Reach accepted event', () => {
     } as ReachAccepted);
 
     expect(kyokuState.kyotaku()).toEqual(initialKyoku.kyotaku + 1);
+    expect(kyokuState.reachPlayers()).toEqual(new Set<PlayerID>([0]));
   });
 });
