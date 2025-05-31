@@ -191,20 +191,27 @@ const kakanHandler: EventHandler<Kakan> = {
     tehais: [HandState, HandState, HandState, HandState],
   ): [HandState, HandState, HandState, HandState] {
     const tehai = tehais[event.actor];
-    tehai.fuuros = tehai.fuuros.filter(
+    const sourcePonIndex = tehai.fuuros.findIndex(
       (fuuro) =>
-        !(
-          fuuro.type === 'pon' &&
-          fuuro.pai === event.pai &&
-          fuuro.consumed.every((tile) => event.consumed.includes(tile))
-        ),
+        fuuro.type === 'pon' &&
+        (fuuro.pai === event.pai || fuuro.pai === event.consumed[0]),
     );
+    const sourcePon = tehai.fuuros[sourcePonIndex] as Pon;
+    tehai.fuuros.splice(sourcePonIndex, 1);
 
-    removeTehai(event.consumed[0], tehai.tehai);
-    removeTehai(event.consumed[1], tehai.tehai);
-    removeTehai(event.consumed[2], tehai.tehai);
+    tehai.tehai.push(tehai.tsumo!);
+    tehai.tehai = sortHand(tehai.tehai);
+    removeTehai(event.pai, tehai.tehai);
     tehai.tsumo = null;
-    tehai.fuuros.push(event);
+    tehai.fuuros.push({
+      type: 'kakan',
+      actor: event.actor,
+      pai: event.pai,
+      consumed: event.consumed,
+      ponTarget: sourcePon.target,
+      ponPai: sourcePon.pai,
+      ponConsumed: sourcePon.consumed,
+    });
 
     tehais[event.actor] = tehai;
     return tehais;

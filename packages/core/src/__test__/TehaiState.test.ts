@@ -299,7 +299,7 @@ describe('test Daiminkan event', () => {
 });
 
 describe('test Kakan event', () => {
-  it('should kakan', () => {
+  it('should kakan from tsumo', () => {
     const startHand: initialHand = [
       '1m',
       '1m',
@@ -327,6 +327,13 @@ describe('test Kakan event', () => {
     };
     tehaiState.handle(ponEvent);
 
+    const tsumoEvent: Tsumo = {
+      type: 'tsumo',
+      actor: 0,
+      pai: '1m',
+    };
+    tehaiState.handle(tsumoEvent);
+
     const kakanEvent: Kakan = {
       type: 'kakan',
       actor: 0,
@@ -349,12 +356,87 @@ describe('test Kakan event', () => {
       '2p',
       '3p',
     ]);
+    expect(actual.tsumo).toEqual(null);
     expect(actual.fuuros).toEqual([
       {
         type: 'kakan',
         actor: 0,
         pai: '1m',
         consumed: ['1m', '1m', '1m'],
+        ponTarget: 1,
+        ponPai: '1m',
+        ponConsumed: ['1m', '1m'],
+      },
+    ]);
+  });
+
+  it('should kakan from tehai', () => {
+    const startHand: initialHand = [
+      '1m',
+      '1m',
+      '1m',
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+    ];
+    const startKyoku = mockStartKyoku(startHand);
+    const tehaiState = TehaiState(startKyoku);
+
+    const ponEvent: Pon = {
+      type: 'pon',
+      actor: 0,
+      target: 1,
+      pai: '1m',
+      consumed: ['1m', '1m'],
+    };
+    tehaiState.handle(ponEvent);
+
+    const tsumoEvent: Tsumo = {
+      type: 'tsumo',
+      actor: 0,
+      pai: '4m',
+    };
+    tehaiState.handle(tsumoEvent);
+
+    const kakanEvent: Kakan = {
+      type: 'kakan',
+      actor: 0,
+      pai: '1m',
+      consumed: ['1m', '1m', '1m'],
+    };
+    tehaiState.handle(kakanEvent);
+
+    const actual = tehaiState.get()[0];
+    expect(actual.tehai).toEqual([
+      '2m',
+      '3m',
+      '4m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+    ]);
+    expect(actual.tsumo).toEqual(null);
+    expect(actual.fuuros).toEqual([
+      {
+        type: 'kakan',
+        actor: 0,
+        pai: '1m',
+        consumed: ['1m', '1m', '1m'],
+        ponTarget: 1,
+        ponPai: '1m',
+        ponConsumed: ['1m', '1m'],
       },
     ]);
   });

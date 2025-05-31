@@ -1,4 +1,4 @@
-import { Ankan, Chi, Daiminkan, Kakan, Pon, Tile } from '@mjai/types';
+import { Ankan, Chi, Daiminkan, PlayerID, Pon, Tile } from '@mjai/types';
 
 export interface HandState {
   tehai: Tile[];
@@ -6,4 +6,14 @@ export interface HandState {
   fuuros: Fuuro[];
 }
 
-export type Fuuro = Ankan | Chi | Daiminkan | Kakan | Pon;
+export interface KakanFuuro {
+  type: 'kakan';
+  actor: PlayerID;
+  pai: Tile;
+  consumed: [Tile, Tile, Tile];
+  ponTarget: PlayerID;
+  ponPai: Tile;
+  ponConsumed: [Tile, Tile];
+}
+
+export type Fuuro = Ankan | Chi | Daiminkan | KakanFuuro | Pon;

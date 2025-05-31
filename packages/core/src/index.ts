@@ -7,5 +7,5 @@ export type {
   KawaState,
   KyokuState,
 } from './GameState';
-export type { HandState, Fuuro } from './types/Tehai';
+export type { HandState, KakanFuuro, Fuuro } from './types/Tehai';
 export type { Kawa } from './types/Kawa';
