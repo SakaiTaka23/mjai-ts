@@ -11,7 +11,7 @@ import {
 } from '@mjai/types';
 
 import { InternalTehaiState } from './GameState';
-import { HandState } from './types/Tehai';
+import { Fuuro, HandState } from './types/Tehai';
 import { removeTehai } from './utils/Editor';
 import { sortHand } from './utils/SortHand';
 
@@ -87,9 +87,17 @@ export const TehaiState = (start: StartKyoku): InternalTehaiState => {
   const get = (): [HandState, HandState, HandState, HandState] =>
     structuredClone(tehais);
 
+  const fuuros = (): [Fuuro[], Fuuro[], Fuuro[], Fuuro[]] => [
+    tehais[0].fuuros,
+    tehais[1].fuuros,
+    tehais[2].fuuros,
+    tehais[3].fuuros,
+  ];
+
   return {
     handle,
     get,
+    fuuros,
   };
 };
 

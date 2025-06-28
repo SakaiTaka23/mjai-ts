@@ -2,7 +2,7 @@ import { Event, PlayerID, Tile } from '@mjai/types';
 
 import { BaseState, InternalBaseState } from './BaseState';
 import { Kawa } from './types/Kawa';
-import { HandState } from './types/Tehai';
+import { Fuuro, HandState } from './types/Tehai';
 
 export interface GameState {
   TehaiState: TehaiState;
@@ -14,9 +14,10 @@ export interface GameState {
 }
 
 //  extend so that we can add more utility functions
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface TehaiState
-  extends BaseState<[HandState, HandState, HandState, HandState]> {}
+  extends BaseState<[HandState, HandState, HandState, HandState]> {
+  fuuros(): [Fuuro[], Fuuro[], Fuuro[], Fuuro[]];
+}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface DoraState extends BaseState<Tile[]> {}
