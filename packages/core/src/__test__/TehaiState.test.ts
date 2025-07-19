@@ -189,7 +189,7 @@ describe('test Tsumo event', () => {
 });
 
 describe('test Dahai event', () => {
-  it('should dashi', () => {
+  it('should dashai in tsumogiri', () => {
     const startHand: initialHand = [
       '1m',
       '2m',
@@ -238,6 +238,60 @@ describe('test Dahai event', () => {
       '2p',
       '3p',
       '4p',
+    ]);
+    expect(actual.tsumo).toEqual(null);
+    expect(actual.fuuros).toEqual([]);
+  });
+
+  it('should dashai in non tsumogiri', () => {
+    const startHand: initialHand = [
+      '1m',
+      '2m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+      '3p',
+      '4p',
+    ];
+    const startKyoku = mockStartKyoku(startHand);
+    const tehaiState = TehaiState(startKyoku);
+
+    const tsumoEvent: Tsumo = {
+      type: 'tsumo',
+      actor: 0,
+      pai: '5p',
+    };
+    tehaiState.handle(tsumoEvent);
+
+    const dahaiEvent: Dahai = {
+      type: 'dahai',
+      actor: 0,
+      pai: '2m',
+      tsumogiri: false,
+    };
+    tehaiState.handle(dahaiEvent);
+
+    const actual = tehaiState.get()[0];
+    expect(actual.tehai).toEqual([
+      '1m',
+      '3m',
+      '4m',
+      '5m',
+      '6m',
+      '7m',
+      '8m',
+      '9m',
+      '1p',
+      '2p',
+      '3p',
+      '4p',
+      '5p',
     ]);
     expect(actual.tsumo).toEqual(null);
     expect(actual.fuuros).toEqual([]);
