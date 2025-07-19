@@ -42,7 +42,7 @@ export const KawaState = (): InternalKawaState => {
         reachIndex: null,
       },
     ],
-    remaining: 69,
+    remaining: 70,
   };
   const handlers = {
     dahai: dahaiHandler,
