@@ -18,22 +18,22 @@ import { sortHand } from './utils/SortHand';
 export const TehaiState = (start: StartKyoku): InternalTehaiState => {
   let tehais: [HandState, HandState, HandState, HandState] = [
     {
-      tehai: start.tehais[0],
+      tehai: sortHand(start.tehais[0]),
       tsumo: null,
       fuuros: [],
     },
     {
-      tehai: start.tehais[1],
+      tehai: sortHand(start.tehais[1]),
       tsumo: null,
       fuuros: [],
     },
     {
-      tehai: start.tehais[2],
+      tehai: sortHand(start.tehais[2]),
       tsumo: null,
       fuuros: [],
     },
     {
-      tehai: start.tehais[3],
+      tehai: sortHand(start.tehais[3]),
       tsumo: null,
       fuuros: [],
     },
