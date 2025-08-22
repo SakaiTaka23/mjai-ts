@@ -19,4 +19,4 @@ export {
   MjaiLogSchema,
   MjaiLogInputSchema,
 } from './input/MjaiLog';
-export { ParseInput } from './ParseInput';
+export { ParseInput, ParseInputSafe } from './ParseInput';
