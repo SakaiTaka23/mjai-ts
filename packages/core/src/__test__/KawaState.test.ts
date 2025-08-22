@@ -30,7 +30,7 @@ describe('Kawa State', () => {
         reachIndex: null,
       },
     ]);
-    expect(actual.remaining).toEqual(69);
+    expect(actual.remaining).toEqual(70);
   });
 
   it('should dahai', () => {
@@ -103,7 +103,7 @@ describe('Kawa State', () => {
         reachIndex: null,
       },
     ]);
-    expect(actual.remaining).toEqual(68);
+    expect(actual.remaining).toEqual(69);
   });
 
   it('should naki', () => {
