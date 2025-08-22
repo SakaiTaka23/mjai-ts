@@ -1,7 +1,20 @@
 {
   "name": "mjai-ts",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "TypeScript library for parsing and managing mjai format mahjong game logs with core game state management",
+  "license": "MIT",
+  "keywords": [
+    "mahjong",
+    "riichi",
+    "game"
+  ],
+  "author": "Takafumi Sakai",
+  "homepage": "https://github.com/SakaiTaka23/mjai-ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SakaiTaka23/mjai-ts.git"
+  },
+  "packageManager": "pnpm@10.6.4",
   "main": "index.js",
   "scripts": {
     "types": "pnpm -F \"types\"",
@@ -10,9 +23,6 @@
     "test": "vitest",
     "build": "pnpm -r build"
   },
-  "keywords": [],
-  "author": "",
-  "packageManager": "pnpm@10.6.4",
   "devDependencies": {
     "@mjai/eslint-config": "workspace:^",
     "@mjai/prettier-config": "workspace:^",
