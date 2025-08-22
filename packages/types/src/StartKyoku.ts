@@ -11,10 +11,10 @@ export interface StartKyoku extends Base {
   kyotaku: number;
   oya: PlayerID;
   scores: [number, number, number, number];
-  tehais: [initialTehai, initialTehai, initialTehai, initialTehai];
+  tehais: [InitialTehai, InitialTehai, InitialTehai, InitialTehai];
 }
 
-type initialTehai = [
+type InitialTehai = [
   Tile,
   Tile,
   Tile,

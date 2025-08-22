@@ -115,7 +115,7 @@ export const StartGameSchema = z
     };
   });
 
-const initialTehaiSchema = z.tuple([
+const InitialTehaiSchema = z.tuple([
   TileInput,
   TileInput,
   TileInput,
@@ -141,10 +141,10 @@ export const StartKyokuSchema = z
     oya: PlayerIDInput,
     scores: z.tuple([z.number(), z.number(), z.number(), z.number()]),
     tehais: z.tuple([
-      initialTehaiSchema,
-      initialTehaiSchema,
-      initialTehaiSchema,
-      initialTehaiSchema,
+      InitialTehaiSchema,
+      InitialTehaiSchema,
+      InitialTehaiSchema,
+      InitialTehaiSchema,
     ]),
   })
   .transform((data) => {
