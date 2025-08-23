@@ -15,7 +15,6 @@
     "url": "git+https://github.com/SakaiTaka23/mjai-ts.git"
   },
   "packageManager": "pnpm@10.6.4",
-  "main": "index.js",
   "exports": {
     "./types": {
       "import": "./packages/types/dist/index.js",
