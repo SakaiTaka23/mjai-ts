@@ -16,6 +16,20 @@
   },
   "packageManager": "pnpm@10.6.4",
   "main": "index.js",
+  "exports": {
+    "./types": {
+      "import": "./packages/types/dist/index.js",
+      "types": "./packages/types/dist/index.d.ts"
+    },
+    "./parser": {
+      "import": "./packages/parser/dist/index.js",
+      "types": "./packages/parser/dist/index.d.ts"
+    },
+    "./core": {
+      "import": "./packages/core/dist/index.js",
+      "types": "./packages/core/dist/index.d.ts"
+    }
+  },
   "scripts": {
     "types": "pnpm -F \"types\"",
     "core": "pnpm -F \"core\"",
