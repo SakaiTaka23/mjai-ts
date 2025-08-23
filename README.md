@@ -16,6 +16,12 @@ This project consists of the following packages:
 - @mjai/prettier-config : Prettier configuration
 - @mjai/tsconfig-config : TypeScript configuration
 
+## Installation
+
+```
+npm i mjai-ts
+```
+
 ## Usage
 ### Parsing Game Logs
 ```typescript
