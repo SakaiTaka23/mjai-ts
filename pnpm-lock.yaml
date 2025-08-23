@@ -75,8 +75,8 @@ importers:
         specifier: workspace:^
         version: link:../types
       zod:
-        specifier: ^3.25.67
-        version: 3.25.67
+        specifier: ^4.1.0
+        version: 4.1.0
 
   packages/prettier-config: {}
 
@@ -2120,6 +2120,9 @@ packages:
 
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
+
+  zod@4.1.0:
+    resolution: {integrity: sha512-UWxluYj2IDX9MHRXTMbB/2eeWrAMmmMSESM+MfT9MQw8U1qo9q5ASW08anoJh6AJ7pkt099fLdNFmfI+4aChHg==}
 
 snapshots:
 
@@ -4299,3 +4302,5 @@ snapshots:
       zod: 3.25.67
 
   zod@3.25.67: {}
+
+  zod@4.1.0: {}
