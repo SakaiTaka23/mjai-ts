@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "tsup",
+    "build": "tsup --dts-resolve",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --check .",
@@ -15,9 +15,6 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.6.4",
-  "devDependencies": {
-    "@mjai/types": "workspace:^"
-  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
