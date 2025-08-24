@@ -2,12 +2,23 @@
   "extends": "@mjai/tsconfig-config/tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@": ["../src"],
-      "@/*": ["../src/*"]
+      "@": [
+        "../src"
+      ],
+      "@/*": [
+        "../src/*"
+      ],
+      "@mjai/types": [
+        "../types/dist"
+      ]
     },
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src"],
-  "exclude": ["../.dist"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "../.dist"
+  ]
 }

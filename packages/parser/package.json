@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "tsup",
+    "build": "tsup --dts-resolve",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --check .",
@@ -17,9 +17,6 @@
   "packageManager": "pnpm@10.6.4",
   "dependencies": {
     "zod": "^4.1.0"
-  },
-  "devDependencies": {
-    "@mjai/types": "workspace:^"
   },
   "exports": {
     ".": {
