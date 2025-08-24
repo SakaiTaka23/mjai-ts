@@ -1,6 +1,6 @@
 {
   "name": "mjai-ts",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "TypeScript library for parsing and managing mjai format mahjong game logs with core game state management",
   "license": "MIT",
   "keywords": [
@@ -15,17 +15,25 @@
     "url": "git+https://github.com/SakaiTaka23/mjai-ts.git"
   },
   "packageManager": "pnpm@10.6.4",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    },
     "./types": {
-      "import": "./packages/types/dist/index.js",
+      "import": "./packages/types/dist/index.mjs",
       "types": "./packages/types/dist/index.d.ts"
     },
     "./parser": {
-      "import": "./packages/parser/dist/index.js",
+      "import": "./packages/parser/dist/index.mjs",
       "types": "./packages/parser/dist/index.d.ts"
     },
     "./core": {
-      "import": "./packages/core/dist/index.js",
+      "import": "./packages/core/dist/index.mjs",
       "types": "./packages/core/dist/index.d.ts"
     }
   },
@@ -34,7 +42,10 @@
     "core": "pnpm -F \"core\"",
     "parser": "pnpm -F \"parser\"",
     "test": "vitest",
-    "build": "pnpm -r build"
+    "build": "pnpm run build:types && pnpm run build:packages && pnpm run build:root",
+    "build:types": "pnpm -F \"types\" build",
+    "build:packages": "pnpm -F \"core\" build && pnpm -F \"parser\" build",
+    "build:root": "tsup --dts-resolve"
   },
   "devDependencies": {
     "@mjai/eslint-config": "workspace:^",

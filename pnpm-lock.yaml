@@ -33,11 +33,7 @@ importers:
         specifier: ^3.1.3
         version: 3.1.3
 
-  packages/core:
-    dependencies:
-      '@mjai/types':
-        specifier: workspace:^
-        version: link:../types
+  packages/core: {}
 
   packages/eslint-config:
     devDependencies:
@@ -71,12 +67,13 @@ importers:
 
   packages/parser:
     dependencies:
-      '@mjai/types':
-        specifier: workspace:^
-        version: link:../types
       zod:
         specifier: ^4.1.0
         version: 4.1.0
+    devDependencies:
+      '@mjai/types':
+        specifier: workspace:^
+        version: link:../types
 
   packages/prettier-config: {}
 
@@ -1790,6 +1787,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   stable-hash@0.0.5:
     resolution: {integrity: sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==}

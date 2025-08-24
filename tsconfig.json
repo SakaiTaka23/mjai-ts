@@ -1,0 +1,18 @@
+{
+  "extends": "@mjai/tsconfig-config/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@mjai/types": [
+        "./packages/types/dist"
+      ]
+    },
+    "outDir": "dist",
+    "rootDir": "."
+  },
+  "include": [
+    "index.ts"
+  ],
+  "exclude": [
+    "./dist"
+  ]
+}
