@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "tsup src/*",
+    "build": "tsup",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --check .",
@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.6.4",
-  "dependencies": {
+  "devDependencies": {
     "@mjai/types": "workspace:^"
   },
   "exports": {
