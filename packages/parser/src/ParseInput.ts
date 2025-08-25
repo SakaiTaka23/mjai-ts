@@ -1,5 +1,5 @@
 import { Event } from '@mjai/types';
-import { ZodSafeParseResult } from 'zod/v4';
+import { ZodSafeParseResult } from 'zod';
 
 import { MjaiLogInputSchema } from './input/MjaiLog';
 
