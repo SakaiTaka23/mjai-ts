@@ -211,7 +211,7 @@ const kakanHandler: EventHandler<Kakan> = {
     const sourcePon = tehai.fuuros[sourcePonIndex] as Pon;
     tehai.fuuros.splice(sourcePonIndex, 1);
 
-    tehai.tehai.push(tehai.tsumo);
+    tehai.tehai.push(tehai.tsumo!);
     tehai.tehai = sortHand(tehai.tehai);
 
     const updatedTehai = removeTehai(event.pai, tehai.tehai);
