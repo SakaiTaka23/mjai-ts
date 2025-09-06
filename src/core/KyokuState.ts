@@ -9,11 +9,14 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
   const bakaze = start.bakaze;
   const oya = start.oya;
   const reachPlayers = new Set<PlayerID>([]);
+  let junme = 0;
 
   const handle = (event: Event): void => {
     if (event.type === 'reach_accepted') {
       kyotaku++;
       reachPlayers.add(event.actor);
+    } else if (event.type === 'dahai' && event.actor === oya) {
+      junme++;
     }
     return;
   };
@@ -25,6 +28,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     bakaze,
     oya,
     reachPlayers,
+    junme,
   });
 
   return {
@@ -36,5 +40,6 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     bakaze: () => bakaze,
     oya: () => oya,
     reachPlayers: () => reachPlayers,
+    junme: () => junme,
   };
 };
