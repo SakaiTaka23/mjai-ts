@@ -53,6 +53,7 @@ describe('Dora State', () => {
     const doraState = DoraState(startKyoku);
 
     expect(doraState.get()).toEqual(['1m']);
+    expect(doraState.getActualDora()).toEqual(['2m']);
   });
 
   it('should add dora in dora event', () => {
@@ -66,5 +67,6 @@ describe('Dora State', () => {
     doraState.handle(doraEvent);
 
     expect(doraState.get()).toEqual(['1m', '5p']);
+    expect(doraState.getActualDora()).toEqual(['2m', '6p']);
   });
 });

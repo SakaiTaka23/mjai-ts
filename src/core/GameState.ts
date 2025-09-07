@@ -19,8 +19,9 @@ export interface TehaiState
   fuuros(): [Fuuro[], Fuuro[], Fuuro[], Fuuro[]];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface DoraState extends BaseState<Tile[]> {}
+export interface DoraState extends BaseState<Tile[]> {
+  getActualDora(): Tile[];
+}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ScoreState
