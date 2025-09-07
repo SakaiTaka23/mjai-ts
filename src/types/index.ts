@@ -1,7 +1,15 @@
 import { Ankan } from './Ankan';
 import { Chi } from './Chi';
 import { PlayerID } from './common/PlayerID';
-import { Tile } from './common/Tiles';
+import {
+  Dragon,
+  Manzu,
+  Pinzu,
+  Souzu,
+  Special,
+  Tile,
+  Wind,
+} from './common/Tiles';
 import { Dahai } from './Dahai';
 import { Daiminkan } from './Daiminkan';
 import { Dora } from './Dora';
@@ -40,4 +48,10 @@ export type {
   // Common
   PlayerID,
   Tile,
+  Manzu,
+  Pinzu,
+  Souzu,
+  Wind,
+  Dragon,
+  Special,
 };

@@ -1,5 +1,5 @@
 // Manzu
-type Manzu =
+export type Manzu =
   | '1m'
   | '2m'
   | '3m'
@@ -12,7 +12,7 @@ type Manzu =
   | '5mr';
 
 // Pinzu
-type Pinzu =
+export type Pinzu =
   | '1p'
   | '2p'
   | '3p'
@@ -25,7 +25,7 @@ type Pinzu =
   | '5pr';
 
 // Souzu
-type Souzu =
+export type Souzu =
   | '1s'
   | '2s'
   | '3s'
@@ -38,12 +38,12 @@ type Souzu =
   | '5sr';
 
 // Wind
-type Wind = 'E' | 'S' | 'W' | 'N';
+export type Wind = 'E' | 'S' | 'W' | 'N';
 
 // Dragon
-type Dragon = 'P' | 'F' | 'C';
+export type Dragon = 'P' | 'F' | 'C';
 
 // Special
-type Special = '?';
+export type Special = '?';
 
 export type Tile = Manzu | Pinzu | Souzu | Wind | Dragon | Special;
