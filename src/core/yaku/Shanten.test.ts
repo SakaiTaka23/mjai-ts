@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
-import { Hai, HaiArr, syanten } from './Shanten';
+import { syanten } from './Shanten';
+import { Hai, HaiArr } from './YakuTypes';
 
 const arr = [
   [3, 4, 9, 10, 15, 15, 16, 20, 24, 27, 28, 29, 31, 33, 5],

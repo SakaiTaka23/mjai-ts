@@ -1,18 +1,13 @@
+import { HaiArr } from './YakuTypes';
+
 /*
  * @Copyright https://github.com/takayama-lily/syanten
  */
-
-export type Hai = 0 | 1 | 2 | 3 | 4;
-export type HaiArr = [
-  [Hai, Hai, Hai, Hai, Hai, Hai, Hai, Hai, Hai],
-  [Hai, Hai, Hai, Hai, Hai, Hai, Hai, Hai, Hai],
-  [Hai, Hai, Hai, Hai, Hai, Hai, Hai, Hai, Hai],
-  [Hai, Hai, Hai, Hai, Hai, Hai, Hai],
-];
-
 const sum = (arr: number[]) => {
   let s = 0;
-  for (let i = 0; i < arr.length; i++) s += arr[i];
+  for (const value of arr) {
+    s += value;
+  }
   return s;
 };
 const syanten = (hai_arr: HaiArr) => {
