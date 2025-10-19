@@ -79,6 +79,7 @@ class Riichi {
   furo: HaiString[][];
   agari: HaiString;
   dora: HaiString[];
+  uraDora: HaiString[];
   extra: string;
   isTsumo: boolean;
   isOya: boolean;
@@ -111,6 +112,7 @@ class Riichi {
     this.furo = [];
     this.agari = '';
     this.dora = [];
+    this.uraDora = [];
     this.extra = '';
     this.isTsumo = true;
     this.isOya = false;
@@ -168,6 +170,7 @@ class Riichi {
       )
         this.extra = v;
       else if (v.startsWith('d')) this.dora = parse(v.substr(1)).res;
+      else if (v.startsWith('u')) this.uraDora = parse(v.substr(1)).res;
       else if (isHai(v)) {
         hai += v;
         this.isTsumo = false;
@@ -253,6 +256,33 @@ class Riichi {
       this.tmpResult.han += dora;
       this.tmpResult.yaku['ドラ'] = dora + '飜';
     }
+
+    // 裏ドラ calculation (only when riichi is present)
+    const hasRiichi =
+      this.extra.includes('r') ||
+      this.extra.includes('i') ||
+      this.extra.includes('w');
+    if (hasRiichi && this.uraDora.length > 0) {
+      let uraDora = 0;
+      for (const v of this.hai) {
+        for (const vv of this.uraDora) {
+          if (v === vv) uraDora++;
+        }
+      }
+      for (let v of this.furo) {
+        if (v.length === 2) v = v.concat(v);
+        for (const vv of v) {
+          for (const vvv of this.uraDora) {
+            if (vvv === vv) uraDora++;
+          }
+        }
+      }
+      if (uraDora) {
+        this.tmpResult.han += uraDora;
+        this.tmpResult.yaku['裏ドラ'] = uraDora + '飜';
+      }
+    }
+
     if (this.allowAka && this.aka) {
       this.tmpResult.han += this.aka;
       this.tmpResult.yaku['赤ドラ'] = this.aka + '飜';

@@ -382,10 +382,27 @@ describe('ドラ (Dora)', () => {
   });
 
   it('裏ドラ1枚(立直時)', () => {
-    const riichi = new Riichi('112233456789m11s+r+d89m');
+    const riichi = new Riichi('112233456789m11s+r+d8m+u9m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yaku['立直']).toBe('1飜');
-    expect(result.yaku['ドラ']).toBe('2飜');
+    expect(result.yaku['ドラ']).toBe('1飜');
+    expect(result.yaku['裏ドラ']).toBe('1飜');
+  });
+
+  it('裏ドラなし(立直なし)', () => {
+    const riichi = new Riichi('112233456789m11s+u9m');
+    const result = riichi.calc();
+    expect(result.isAgari).toBe(true);
+    expect(result.yaku['裏ドラ']).toBeUndefined();
+  });
+
+  it('裏ドラのみ(立直時)', () => {
+    const riichi = new Riichi('112233456789m11s+r+d9m+u1m');
+    const result = riichi.calc();
+    expect(result.isAgari).toBe(true);
+    expect(result.yaku['立直']).toBe('1飜');
+    expect(result.yaku['ドラ']).toBe('1飜');
+    expect(result.yaku['裏ドラ']).toBe('2飜');
   });
 });
