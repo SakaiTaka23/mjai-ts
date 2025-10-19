@@ -8,16 +8,16 @@ const MPSZ = ['m', 'p', 's', 'z'];
 
 const sum = (arr: number[]): number => {
   let s = 0;
-  for (let i = 0; i < arr.length; i++) s += arr[i];
+  for (const val of arr) s += val;
   return s;
 };
 
 const check7 = (hai_arr: HaiArr): boolean => {
   const arr = [...hai_arr[0], ...hai_arr[1], ...hai_arr[2], ...hai_arr[3]];
   let s = 0;
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] && arr[i] != 2) return false;
-    s += arr[i];
+  for (const val of arr) {
+    if (val && val != 2) return false;
+    s += val;
   }
   return s == 14;
 };
@@ -52,7 +52,7 @@ const _check = (arr: number[], is_jihai = false): boolean => {
     if (arr[i] === 0) {
       continue;
     } else if (arr[i] === 3) {
-      delete arr[i];
+      arr[i] = 0;
       continue;
     } else {
       if (is_jihai || i >= 7) return false;
@@ -68,9 +68,9 @@ const _check = (arr: number[], is_jihai = false): boolean => {
 
 const check = (hai_arr: HaiArr): boolean => {
   let j = 0;
-  for (let i = 0; i < hai_arr.length; i++) {
-    if (sum(hai_arr[i]) % 3 === 1) return false;
-    j += sum(hai_arr[i]) % 3 === 2 ? 1 : 0;
+  for (const arr of hai_arr) {
+    if (sum(arr) % 3 === 1) return false;
+    j += sum(arr) % 3 === 2 ? 1 : 0;
   }
   return (
     j === 1 &&

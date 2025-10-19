@@ -56,11 +56,16 @@ const parse = (text: string) => {
   let aka = 0;
   for (let v of text) {
     if (!isNaN(Number(v))) {
-      if (v === '0') ((v = '5'), aka++);
+      if (v === '0') {
+        v = '5';
+        aka++;
+      }
       tmp.push(v);
     }
     if (MPSZ.includes(v)) {
-      for (const k in tmp) if (!isNaN(Number(tmp[k]))) tmp[k] += v;
+      for (let k = 0; k < tmp.length; k++) {
+        if (!isNaN(Number(tmp[k]))) tmp[k] += v;
+      }
     }
   }
   const res = [];
@@ -170,11 +175,16 @@ class Riichi {
         let tmp = [];
         for (let vv of v) {
           if (MPSZ.includes(vv)) {
-            for (const k in tmp) tmp[k] += vv;
+            for (let k = 0; k < tmp.length; k++) {
+              tmp[k] += vv;
+            }
             if (isFuro(tmp)) this.furo.push(tmp.sort());
             tmp = [];
           } else {
-            if (vv === '0') ((vv = '5'), this.aka++);
+            if (vv === '0') {
+              vv = '5';
+              this.aka++;
+            }
             tmp.push(vv);
           }
         }
@@ -207,7 +217,9 @@ class Riichi {
     else this.isOya = false;
 
     this.tmpResult.error = false;
-    this.finalResult = JSON.parse(JSON.stringify(this.tmpResult));
+    this.finalResult = JSON.parse(
+      JSON.stringify(this.tmpResult),
+    ) as RiichiCalcResult;
   }
 
   /**
@@ -341,8 +353,8 @@ class Riichi {
       this.tmpResult.ko = [ceil100(base * 4)];
     }
     this.tmpResult.ten = this.isOya
-      ? eval(this.tmpResult.oya.join('+'))
-      : eval(this.tmpResult.ko.join('+'));
+      ? this.tmpResult.oya.reduce((sum, val) => sum + val, 0)
+      : this.tmpResult.ko.reduce((sum, val) => sum + val, 0);
     this.tmpResult.text += ' ' + this.tmpResult.ten + '点';
     if (this.isTsumo) {
       this.tmpResult.text += '(';
@@ -441,9 +453,9 @@ class Riichi {
     if (!this.agariPatterns.length) this.agariPatterns.push([]);
     for (const v of this.agariPatterns) {
       if (!this.isTsumo) {
-        for (const k in v) {
+        for (let k = 0; k < v.length; k++) {
           const vv = v[k];
-          if (vv.length === 1 && vv[0] === this.agari) {
+          if (Array.isArray(vv) && vv.length === 1 && vv[0] === this.agari) {
             const i = MPSZ.indexOf(this.agari[1]);
             if (this.haiArray[i][parseInt(this.agari) - 1] < 4)
               v[k] = [vv[0], vv[0], vv[0]];
@@ -459,12 +471,16 @@ class Riichi {
       }
       this.calcTen();
       if (this.tmpResult.ten > this.finalResult.ten)
-        this.finalResult = JSON.parse(JSON.stringify(this.tmpResult));
+        this.finalResult = JSON.parse(
+          JSON.stringify(this.tmpResult),
+        ) as RiichiCalcResult;
       else if (
         this.tmpResult.ten === this.finalResult.ten &&
         this.tmpResult.han > this.finalResult.han
       )
-        this.finalResult = JSON.parse(JSON.stringify(this.tmpResult));
+        this.finalResult = JSON.parse(
+          JSON.stringify(this.tmpResult),
+        ) as RiichiCalcResult;
     }
 
     if (!this.finalResult.ten) this.finalResult.text = '無役';

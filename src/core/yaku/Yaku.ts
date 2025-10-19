@@ -469,9 +469,8 @@ const YAKU: Record<string, YakuDef> = {
     isMenzenOnly: true,
     check: (o: Riichi) => {
       if (YAKU['二盃口'].check(o)) return false;
-      for (const i in o.currentPattern) {
-        let iInt = parseInt(i);
-        const v = o.currentPattern[i];
+      for (let iInt = 0; iInt < o.currentPattern.length; iInt++) {
+        const v = o.currentPattern[iInt];
         if (Array.isArray(v) && v.length === 3 && v[0] != v[1]) {
           while (iInt < 4) {
             iInt++;

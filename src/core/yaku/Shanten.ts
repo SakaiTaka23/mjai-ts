@@ -62,48 +62,66 @@ const syanten = (hai_arr: HaiArr) => {
       }
       if (!is_jihai) {
         if (arr[index] > 0 && arr[index + 1] > 0 && arr[index + 2] > 0) {
-          (arr[index]--, arr[index + 1]--, arr[index + 2]--);
+          arr[index]--;
+          arr[index + 1]--;
+          arr[index + 2]--;
           tmp = searchHelper(arr, index, is_jihai, mentsu + 1, tatsu, alone);
           if (tmp > max) {
             max = tmp;
           }
-          (arr[index]++, arr[index + 1]++, arr[index + 2]++);
+          arr[index]++;
+          arr[index + 1]++;
+          arr[index + 2]++;
         }
         if (arr[index] > 0 && arr[index + 2] > 0) {
-          (arr[index]--, arr[index + 2]--);
+          arr[index]--;
+          arr[index + 2]--;
           tmp = searchHelper(arr, index, is_jihai, mentsu, tatsu + 1, alone);
           if (tmp > max) {
             max = tmp;
           }
-          (arr[index]++, arr[index + 2]++);
+          arr[index]++;
+          arr[index + 2]++;
         }
         if (arr[index] > 0 && arr[index + 1] > 0) {
-          (arr[index]--, arr[index + 1]--);
+          arr[index]--;
+          arr[index + 1]--;
           tmp = searchHelper(arr, index, is_jihai, mentsu, tatsu + 1, alone);
           if (tmp > max) {
             max = tmp;
           }
-          (arr[index]++, arr[index + 1]++);
+          arr[index]++;
+          arr[index + 1]++;
         }
       }
       return max;
     };
     const tmp = searchHelper(arr, 0, is_jihai, 0, 0, 0);
-    ((mentsu += tmp[0]), (tatsu += tmp[1]), (alone += tmp[2]));
+    mentsu += tmp[0];
+    tatsu += tmp[1];
+    alone += tmp[2];
   };
   const calc = () => {
     let tmp_res = -1;
     while (mentsu < 4 - furo) {
       if (tatsu && alone) {
-        (tatsu--, alone--, mentsu++, tmp_res++);
+        tatsu--;
+        alone--;
+        mentsu++;
+        tmp_res++;
         continue;
       }
       if (tatsu && !alone) {
-        (tatsu--, alone++, mentsu++, tmp_res++);
+        tatsu--;
+        alone++;
+        mentsu++;
+        tmp_res++;
         continue;
       }
       if (!tatsu && alone) {
-        ((alone -= 2), mentsu++, (tmp_res += 2));
+        alone -= 2;
+        mentsu++;
+        tmp_res += 2;
       }
     }
     if (alone > 0) tmp_res++;
@@ -132,10 +150,10 @@ const syanten = (hai_arr: HaiArr) => {
   for (let i = 0; i < 34; i++) {
     if (arr[i] === 0) continue;
     const t = [];
-    ((t[0] = [...hai_arr[0]]),
-      (t[1] = [...hai_arr[1]]),
-      (t[2] = [...hai_arr[2]]),
-      (t[3] = [...hai_arr[3]]));
+    t[0] = [...hai_arr[0]];
+    t[1] = [...hai_arr[1]];
+    t[2] = [...hai_arr[2]];
+    t[3] = [...hai_arr[3]];
     t[Math.floor(i / 9)][i % 9] -= arr[i] >= 2 ? 2 : arr[i];
     search(t[0]);
     search(t[1]);

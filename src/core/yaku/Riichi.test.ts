@@ -5,7 +5,19 @@ import { Riichi } from './Riichi';
 describe('Basic Examples', () => {
   it('usage', () => {
     const riichi = new Riichi('112233456789m11s');
-    console.log(riichi.calc());
+    expect(riichi.calc()).toEqual({
+      isAgari: true,
+      yakuman: 0,
+      yaku: { 一気通貫: '2飜', 一盃口: '1飜', 門前清自摸和: '1飜' },
+      han: 4,
+      fu: 30,
+      ten: 7900,
+      name: '',
+      text: '(南場西家)自摸 30符4飜 7900点(3900,2000)',
+      oya: [3900, 3900, 3900],
+      ko: [3900, 2000, 2000],
+      error: false,
+    });
   });
 });
 
