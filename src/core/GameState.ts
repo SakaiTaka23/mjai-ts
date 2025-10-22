@@ -1,4 +1,4 @@
-import { Event, PlayerID, Tile } from '@types';
+import { Event, PlayerID, Tile, Wind } from '@types';
 
 import { BaseState, InternalBaseState } from './BaseState';
 import { Kawa } from './types/Kawa';
@@ -66,8 +66,8 @@ export interface KyokuState
     isIpatsu: boolean;
     isDoubleReach: boolean;
   }>;
-
   junme(): number;
+  wind: (playerID: PlayerID) => Wind;
 }
 
 export interface InternalGameState {

@@ -1,4 +1,4 @@
-import { Event, PlayerID, StartKyoku } from '@types';
+import { Event, PlayerID, StartKyoku, Wind } from '@types';
 
 import { InternalKyokuState } from './GameState';
 
@@ -27,6 +27,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     true,
     true,
   ];
+  const windMap: [Wind, Wind, Wind, Wind] = ['E', 'S', 'W', 'N'];
 
   const handle = (event: Event): void => {
     if (event.type === 'reach_accepted') {
@@ -86,6 +87,8 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     junme,
   });
 
+  const wind = (playerID: PlayerID): Wind => windMap[(playerID - oya + 4) % 4];
+
   return {
     get,
     handle,
@@ -98,5 +101,6 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     isChankanRinshan: () => isChankanRinshan,
     reachPlayers: () => reachPlayers,
     junme: () => junme,
+    wind,
   };
 };
