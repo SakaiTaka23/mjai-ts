@@ -31,8 +31,11 @@ export interface KawaState
   extends BaseState<{
     kawas: [Kawa, Kawa, Kawa, Kawa];
     remaining: number;
+    isHaiteiHotei: boolean;
   }> {
+  kawas(): [Kawa, Kawa, Kawa, Kawa];
   remaining(): number;
+  isHaiteiHotei(): boolean;
 }
 
 export interface KyokuState
@@ -42,20 +45,27 @@ export interface KyokuState
     kyotaku: number;
     bakaze: 'E' | 'S' | 'W';
     oya: PlayerID;
-    reachPlayers: Set<PlayerID>;
+    isChankanRinshan: boolean;
+    isTenChiho: [boolean, boolean, boolean, boolean];
+    reachPlayers: Set<{
+      playerId: PlayerID;
+      isIpatsu: boolean;
+      isDoubleReach: boolean;
+    }>;
     junme: number;
   }> {
   kyoku(): number;
-
   honba(): number;
-
   kyotaku(): number;
-
   bakaze(): 'E' | 'S' | 'W';
-
   oya(): PlayerID;
-
-  reachPlayers(): Set<PlayerID>;
+  isChankanRinshan(): boolean;
+  isTenChiho(): [boolean, boolean, boolean, boolean];
+  reachPlayers(): Set<{
+    playerId: PlayerID;
+    isIpatsu: boolean;
+    isDoubleReach: boolean;
+  }>;
 
   junme(): number;
 }
@@ -87,6 +97,7 @@ export interface InternalKawaState
     InternalBaseState<{
       kawas: [Kawa, Kawa, Kawa, Kawa];
       remaining: number;
+      isHaiteiHotei: boolean;
     }> {}
 
 export interface InternalKyokuState
@@ -97,6 +108,12 @@ export interface InternalKyokuState
       kyotaku: number;
       bakaze: 'E' | 'S' | 'W';
       oya: PlayerID;
-      reachPlayers: Set<PlayerID>;
+      isChankanRinshan: boolean;
+      isTenChiho: [boolean, boolean, boolean, boolean];
+      reachPlayers: Set<{
+        playerId: PlayerID;
+        isIpatsu: boolean;
+        isDoubleReach: boolean;
+      }>;
       junme: number;
     }> {}

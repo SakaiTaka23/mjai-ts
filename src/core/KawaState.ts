@@ -16,6 +16,7 @@ import { Kawa } from './types/Kawa';
 interface State {
   kawas: [Kawa, Kawa, Kawa, Kawa];
   remaining: number;
+  isHaiteiHotei: boolean;
 }
 
 export const KawaState = (): InternalKawaState => {
@@ -43,6 +44,7 @@ export const KawaState = (): InternalKawaState => {
       },
     ],
     remaining: 70,
+    isHaiteiHotei: false,
   };
   const handlers = {
     dahai: dahaiHandler,
@@ -74,17 +76,27 @@ export const KawaState = (): InternalKawaState => {
         break;
     }
 
+    if (kawas.remaining === 0) {
+      kawas.isHaiteiHotei = true;
+    }
+
     return;
   };
 
-  const get = (): State => structuredClone(kawas);
-
-  const remaining = (): number => kawas.remaining;
+  const get = (): State => {
+    return {
+      kawas: kawas.kawas,
+      remaining: kawas.remaining,
+      isHaiteiHotei: kawas.isHaiteiHotei,
+    };
+  };
 
   return {
     handle,
     get,
-    remaining,
+    kawas: () => structuredClone(kawas.kawas),
+    remaining: (): number => kawas.remaining,
+    isHaiteiHotei: () => kawas.isHaiteiHotei,
   };
 };
 
