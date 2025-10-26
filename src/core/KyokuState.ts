@@ -1,4 +1,4 @@
-import { Event, PlayerID, StartKyoku, Tile, Wind } from '@types';
+import { Dahai, Event, PlayerID, StartKyoku, Tile, Tsumo, Wind } from '@types';
 
 import { InternalKyokuState } from './GameState';
 
@@ -19,8 +19,16 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     playerId: PlayerID;
     isIpatsu: boolean;
     isDoubleReach: boolean;
-    uraDora: Tile[];
   }>([]);
+  const horaPlayers = new Set<{
+    playerId: PlayerID;
+    targetPlayerId: PlayerID;
+    isRon: boolean;
+    horaTile: Tile;
+    uraDora: Tile[];
+    deltas: [number, number, number, number];
+  }>([]);
+  let lastDahaiTsumo: Dahai | Tsumo = { type: 'tsumo', actor: oya, pai: '1m' };
   let junme = 0;
   let isDoubleReach: [boolean, boolean, boolean, boolean] = [
     true,
@@ -37,7 +45,6 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
         playerId: event.actor,
         isIpatsu: true,
         isDoubleReach: isDoubleReach[event.actor],
-        uraDora: [],
       });
     } else if (event.type === 'dahai' && event.actor === oya) {
       junme++;
@@ -73,14 +80,22 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
           rp.isIpatsu = false;
         }
       }
+
+      lastDahaiTsumo = event;
+    }
+    if (event.type === 'tsumo') {
+      lastDahaiTsumo = event;
     }
 
     if (event.type === 'hora') {
-      for (const rp of reachPlayers) {
-        if (rp.playerId === event.actor) {
-          rp.uraDora = event.uraMarkers;
-        }
-      }
+      horaPlayers.add({
+        playerId: event.actor,
+        targetPlayerId: event.target,
+        isRon: event.target !== event.actor,
+        horaTile: lastDahaiTsumo.pai,
+        uraDora: event.uraMarkers,
+        deltas: event.deltas,
+      });
     }
     return;
   };
@@ -94,6 +109,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     isChankanRinshan,
     isTenChiho,
     reachPlayers,
+    horaPlayers,
     junme,
   });
 
@@ -110,6 +126,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     isTenChiho: () => [...isTenChiho],
     isChankanRinshan: () => isChankanRinshan,
     reachPlayers: () => reachPlayers,
+    horaPlayers: () => horaPlayers,
     junme: () => junme,
     wind,
   };

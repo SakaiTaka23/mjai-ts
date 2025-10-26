@@ -51,7 +51,14 @@ export interface KyokuState
       playerId: PlayerID;
       isIpatsu: boolean;
       isDoubleReach: boolean;
+    }>;
+    horaPlayers: Set<{
+      playerId: PlayerID;
+      targetPlayerId: PlayerID;
+      isRon: boolean;
+      horaTile: Tile;
       uraDora: Tile[];
+      deltas: [number, number, number, number];
     }>;
     junme: number;
   }> {
@@ -66,7 +73,14 @@ export interface KyokuState
     playerId: PlayerID;
     isIpatsu: boolean;
     isDoubleReach: boolean;
+  }>;
+  horaPlayers(): Set<{
+    playerId: PlayerID;
+    targetPlayerId: PlayerID;
+    isRon: boolean;
+    horaTile: Tile;
     uraDora: Tile[];
+    deltas: [number, number, number, number];
   }>;
   junme(): number;
   wind: (playerID: PlayerID) => Wind;
@@ -116,7 +130,14 @@ export interface InternalKyokuState
         playerId: PlayerID;
         isIpatsu: boolean;
         isDoubleReach: boolean;
+      }>;
+      horaPlayers: Set<{
+        playerId: PlayerID;
+        targetPlayerId: PlayerID;
+        isRon: boolean;
+        horaTile: Tile;
         uraDora: Tile[];
+        deltas: [number, number, number, number];
       }>;
       junme: number;
     }> {}
