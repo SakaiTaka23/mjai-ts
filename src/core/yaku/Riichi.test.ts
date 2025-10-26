@@ -203,7 +203,7 @@ describe('2飜役', () => {
   });
 
   it('三槓子', () => {
-    const riichi = new Riichi('456m11p+1111m+2222p+3333s');
+    const riichi = new Riichi('456m11p+50m+2222p+3333s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yaku['三槓子']).toBe('2飜');

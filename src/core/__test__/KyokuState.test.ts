@@ -79,6 +79,7 @@ describe('Kyoku State', () => {
         playerId: PlayerID;
         isIpatsu: boolean;
         isDoubleReach: boolean;
+        uraDora: Tile[];
       }>([]),
       junme: 0,
     });
@@ -107,11 +108,13 @@ describe('Reach accepted event', () => {
         playerId: PlayerID;
         isIpatsu: boolean;
         isDoubleReach: boolean;
+        uraDora: Tile[];
       }>([
         {
           playerId: 0,
           isIpatsu: true,
           isDoubleReach: true,
+          uraDora: [],
         },
       ]),
     );
@@ -265,5 +268,35 @@ describe('ko dahai should not increase junme', () => {
       tsumogiri: false,
     });
     expect(kyokuState.junme()).toEqual(0);
+  });
+});
+
+describe('hora event', () => {
+  it('should add uradora on reach hora', () => {
+    const initialKyoku = {
+      kyoku: 1,
+      honba: 7,
+      kyotaku: 3,
+      bakaze: 'E',
+      oya: 0,
+    } as managed;
+    const startKyoku = mockStartKyoku(initialKyoku);
+    const kyokuState = KyokuState(startKyoku);
+    kyokuState.handle({
+      type: 'reach_accepted',
+      actor: 0,
+    } as ReachAccepted);
+    kyokuState.handle({
+      type: 'hora',
+      actor: 0,
+      target: 1,
+      deltas: [2600, -2600, 0, 0],
+      uraMarkers: ['2m', '3m'],
+    });
+    const reach = kyokuState.reachPlayers();
+    expect(reach.size).toBe(1);
+    const rp = Array.from(reach)[0];
+    expect(rp.playerId).toBe(0);
+    expect(rp.uraDora).toEqual(['2m', '3m']);
   });
 });

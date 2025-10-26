@@ -51,6 +51,7 @@ export interface KyokuState
       playerId: PlayerID;
       isIpatsu: boolean;
       isDoubleReach: boolean;
+      uraDora: Tile[];
     }>;
     junme: number;
   }> {
@@ -65,6 +66,7 @@ export interface KyokuState
     playerId: PlayerID;
     isIpatsu: boolean;
     isDoubleReach: boolean;
+    uraDora: Tile[];
   }>;
   junme(): number;
   wind: (playerID: PlayerID) => Wind;
@@ -114,6 +116,7 @@ export interface InternalKyokuState
         playerId: PlayerID;
         isIpatsu: boolean;
         isDoubleReach: boolean;
+        uraDora: Tile[];
       }>;
       junme: number;
     }> {}

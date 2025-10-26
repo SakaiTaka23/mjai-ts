@@ -1,4 +1,4 @@
-import { Event, PlayerID, StartKyoku, Wind } from '@types';
+import { Event, PlayerID, StartKyoku, Tile, Wind } from '@types';
 
 import { InternalKyokuState } from './GameState';
 
@@ -19,6 +19,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     playerId: PlayerID;
     isIpatsu: boolean;
     isDoubleReach: boolean;
+    uraDora: Tile[];
   }>([]);
   let junme = 0;
   let isDoubleReach: [boolean, boolean, boolean, boolean] = [
@@ -36,6 +37,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
         playerId: event.actor,
         isIpatsu: true,
         isDoubleReach: isDoubleReach[event.actor],
+        uraDora: [],
       });
     } else if (event.type === 'dahai' && event.actor === oya) {
       junme++;
@@ -69,6 +71,14 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
       for (const rp of reachPlayers) {
         if (rp.playerId === event.actor) {
           rp.isIpatsu = false;
+        }
+      }
+    }
+
+    if (event.type === 'hora') {
+      for (const rp of reachPlayers) {
+        if (rp.playerId === event.actor) {
+          rp.uraDora = event.uraMarkers;
         }
       }
     }
