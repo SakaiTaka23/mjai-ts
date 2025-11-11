@@ -38,18 +38,34 @@ describe('Basic Examples', () => {
     expect(fullString).toBe('1m1m2m2m3m3m4m5m6m7m8m9m1s1s+d5p+12');
 
     const riichi = new Riichi(fullString);
-    expect(riichi.calc()).toEqual({
-      isAgari: true,
-      yakuman: 0,
-      yaku: { 一気通貫: '2飜', 一盃口: '1飜', 門前清自摸和: '1飜' },
-      han: 4,
-      fu: 30,
-      ten: 7900,
-      name: '',
-      text: '(南場西家)自摸 30符4飜 7900点(3900,2000)',
-      oya: [3900, 3900, 3900],
-      ko: [3900, 2000, 2000],
-      error: false,
+    const result = riichi.calc();
+    expect(result.isAgari).toBe(true);
+    expect(result.yakuman).toBe(0);
+    expect(result.han).toBe(4);
+    expect(result.fu).toBe(30);
+    expect(result.ten).toBe(7900);
+    expect(result.name).toBe('');
+    expect(result.error).toBe(false);
+    expect(result.scoreInfo.bakaze).toBe('東');
+    expect(result.scoreInfo.jikaze).toBe('南');
+    expect(result.scoreInfo.agariType).toBe('tsumo');
+    expect(result.payment.type).toBe('tsumo');
+    if (result.payment.type === 'tsumo') {
+      expect(result.payment.fromOya).toBe(3900);
+      expect(result.payment.fromKo).toBe(2000);
+    }
+    // 役の確認
+    expect(result.yaku).toContainEqual({
+      name: '一気通貫',
+      value: { type: 'han', count: 2 },
+    });
+    expect(result.yaku).toContainEqual({
+      name: '一盃口',
+      value: { type: 'han', count: 1 },
+    });
+    expect(result.yaku).toContainEqual({
+      name: '門前清自摸和',
+      value: { type: 'han', count: 1 },
     });
   });
 });

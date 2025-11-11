@@ -4,10 +4,26 @@
 import { checkAll, findAllAgariPatterns } from './Agari';
 import { hairi } from './Shanten';
 import { YAKU } from './Yaku';
-import { HaiArr, HaiString, AgariPattern, RiichiCalcResult } from './YakuTypes';
+import {
+  HaiArr,
+  HaiString,
+  AgariPattern,
+  RiichiCalcResult,
+  Kaze,
+  YakuName,
+} from './YakuTypes';
 
 const MPSZ = ['m', 'p', 's', 'z'];
-const KAZE = ['東', '南', '西', '北', '白', '發', '中'];
+
+const numberToKaze = (num: number): Kaze => {
+  const kazeMap: Record<number, Kaze> = {
+    1: '東',
+    2: '南',
+    3: '西',
+    4: '北',
+  };
+  return kazeMap[num] || '東';
+};
 
 const ceil10 = (num: number) => {
   return Math.ceil(num / 10) * 10;
@@ -124,27 +140,41 @@ class Riichi {
     this.tmpResult = {
       isAgari: false,
       yakuman: 0,
-      yaku: {},
+      yaku: [],
       han: 0,
       fu: 0,
       ten: 0,
       name: '',
-      text: '',
-      oya: [0, 0, 0],
-      ko: [0, 0, 0],
+      scoreInfo: {
+        bakaze: '東',
+        jikaze: '南',
+        agariType: 'tsumo',
+      },
+      payment: {
+        type: 'tsumo',
+        fromOya: 0,
+        fromKo: 0,
+      },
       error: true,
     };
     this.finalResult = {
       isAgari: false,
       yakuman: 0,
-      yaku: {},
+      yaku: [],
       han: 0,
       fu: 0,
       ten: 0,
       name: '',
-      text: '',
-      oya: [0, 0, 0],
-      ko: [0, 0, 0],
+      scoreInfo: {
+        bakaze: '東',
+        jikaze: '南',
+        agariType: 'tsumo',
+      },
+      payment: {
+        type: 'tsumo',
+        fromOya: 0,
+        fromKo: 0,
+      },
       error: true,
     };
 
@@ -254,7 +284,10 @@ class Riichi {
     }
     if (dora) {
       this.tmpResult.han += dora;
-      this.tmpResult.yaku['ドラ'] = dora + '飜';
+      this.tmpResult.yaku.push({
+        name: 'ドラ',
+        value: { type: 'han', count: dora },
+      });
     }
 
     // 裏ドラ calculation (only when riichi is present)
@@ -279,13 +312,19 @@ class Riichi {
       }
       if (uraDora) {
         this.tmpResult.han += uraDora;
-        this.tmpResult.yaku['裏ドラ'] = uraDora + '飜';
+        this.tmpResult.yaku.push({
+          name: '裏ドラ',
+          value: { type: 'han', count: uraDora },
+        });
       }
     }
 
     if (this.allowAka && this.aka) {
       this.tmpResult.han += this.aka;
-      this.tmpResult.yaku['赤ドラ'] = this.aka + '飜';
+      this.tmpResult.yaku.push({
+        name: '赤ドラ',
+        value: { type: 'han', count: this.aka },
+      });
     }
   }
 
@@ -294,9 +333,11 @@ class Riichi {
    */
   calcFu() {
     let fu = 0;
-    if (this.tmpResult.yaku['七対子']) {
+    const hasChiitoi = this.tmpResult.yaku.some((y) => y.name === '七対子');
+    const hasPinfu = this.tmpResult.yaku.some((y) => y.name === '平和');
+    if (hasChiitoi) {
       fu = 25;
-    } else if (this.tmpResult.yaku['平和']) {
+    } else if (hasPinfu) {
       fu = this.isTsumo ? 20 : 30;
     } else {
       fu = 20;
@@ -338,18 +379,32 @@ class Riichi {
   calcTen() {
     this.tmpResult.name = '';
     let base;
-    this.tmpResult.text = `(${KAZE[this.bakaze]}場`;
-    this.tmpResult.text += KAZE[this.jikaze] + '家)';
-    this.tmpResult.text += this.isTsumo ? '自摸' : '栄和';
+
+    // scoreInfoの設定
+    this.tmpResult.scoreInfo = {
+      bakaze: numberToKaze(this.bakaze),
+      jikaze: numberToKaze(this.jikaze),
+      agariType: this.isTsumo ? 'tsumo' : 'ron',
+    };
+
     if (this.tmpResult.yakuman) {
       base = 8000 * this.tmpResult.yakuman;
-      this.tmpResult.name =
-        this.tmpResult.yakuman > 1 ? this.tmpResult.yakuman + '倍役満' : '役満';
+      if (this.tmpResult.yakuman === 1) {
+        this.tmpResult.name = '役満';
+      } else if (this.tmpResult.yakuman === 2) {
+        this.tmpResult.name = '2倍役満';
+      } else if (this.tmpResult.yakuman === 3) {
+        this.tmpResult.name = '3倍役満';
+      } else if (this.tmpResult.yakuman === 4) {
+        this.tmpResult.name = '4倍役満';
+      } else if (this.tmpResult.yakuman === 5) {
+        this.tmpResult.name = '5倍役満';
+      } else {
+        this.tmpResult.name = '6倍役満';
+      }
     } else {
       if (!this.tmpResult.han) return;
       base = this.tmpResult.fu * Math.pow(2, this.tmpResult.han + 2);
-      this.tmpResult.text +=
-        ' ' + this.tmpResult.fu + '符' + this.tmpResult.han + '飜';
       if (base > 2000) {
         if (this.tmpResult.han >= 13) {
           base = 8000;
@@ -369,30 +424,37 @@ class Riichi {
         }
       }
     }
-    this.tmpResult.text +=
-      (this.tmpResult.name ? ' ' : '') + this.tmpResult.name;
+
+    // paymentの設定
     if (this.isTsumo) {
-      this.tmpResult.oya = [
-        ceil100(base * 2),
-        ceil100(base * 2),
-        ceil100(base * 2),
-      ];
-      this.tmpResult.ko = [ceil100(base * 2), ceil100(base), ceil100(base)];
+      if (this.isOya) {
+        // 親のツモ: 子全員から同額
+        const fromKo = ceil100(base * 2);
+        this.tmpResult.payment = {
+          type: 'tsumo',
+          fromOya: fromKo,
+          fromKo: fromKo,
+        };
+        this.tmpResult.ten = fromKo * 3;
+      } else {
+        // 子のツモ: 親と子で異なる額
+        const fromOya = ceil100(base * 2);
+        const fromKo = ceil100(base);
+        this.tmpResult.payment = {
+          type: 'tsumo',
+          fromOya: fromOya,
+          fromKo: fromKo,
+        };
+        this.tmpResult.ten = fromOya + fromKo * 2;
+      }
     } else {
-      this.tmpResult.oya = [ceil100(base * 6)];
-      this.tmpResult.ko = [ceil100(base * 4)];
-    }
-    this.tmpResult.ten = this.isOya
-      ? this.tmpResult.oya.reduce((sum, val) => sum + val, 0)
-      : this.tmpResult.ko.reduce((sum, val) => sum + val, 0);
-    this.tmpResult.text += ' ' + this.tmpResult.ten + '点';
-    if (this.isTsumo) {
-      this.tmpResult.text += '(';
-      if (this.isOya) this.tmpResult.text += this.tmpResult.oya[0] + 'all';
-      else
-        this.tmpResult.text +=
-          this.tmpResult.ko[0] + ',' + this.tmpResult.ko[1];
-      this.tmpResult.text += ')';
+      // ロン
+      const amount = this.isOya ? ceil100(base * 6) : ceil100(base * 4);
+      this.tmpResult.payment = {
+        type: 'ron',
+        amount: amount,
+      };
+      this.tmpResult.ten = amount;
     }
   }
 
@@ -400,7 +462,7 @@ class Riichi {
    * 手役計算
    */
   calcYaku() {
-    this.tmpResult.yaku = {};
+    this.tmpResult.yaku = [];
     this.tmpResult.yakuman = 0;
     this.tmpResult.han = 0;
     for (const k in YAKU) {
@@ -414,11 +476,17 @@ class Riichi {
         if (v.yakuman) {
           const n = this.allowWyakuman ? v.yakuman : 1;
           this.tmpResult.yakuman += n;
-          this.tmpResult.yaku[k] = n > 1 ? 'ダブル役満' : '役満';
+          this.tmpResult.yaku.push({
+            name: k as YakuName,
+            value: { type: 'yakuman', multiplier: n as 1 | 2 },
+          });
         } else {
           let n = v.han!;
           if (v.isFuroMinus && !this.isMenzen()) n--;
-          this.tmpResult.yaku[k] = n + '飜';
+          this.tmpResult.yaku.push({
+            name: k as YakuName,
+            value: { type: 'han', count: n },
+          });
           this.tmpResult.han += n;
         }
       }
@@ -513,7 +581,6 @@ class Riichi {
         ) as RiichiCalcResult;
     }
 
-    if (!this.finalResult.ten) this.finalResult.text = '無役';
     return this.finalResult;
   }
 }

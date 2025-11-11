@@ -1,22 +1,52 @@
 import { describe, it, expect } from 'vitest';
 
 import { Riichi } from './Riichi';
+import { hasYaku, getYaku } from './YakuHelpers';
+import type { YakuName, RiichiCalcResult } from './YakuTypes';
+
+const expectYaku = (
+  result: RiichiCalcResult,
+  name: YakuName,
+  expectedValue:
+    | { type: 'han'; count: number }
+    | { type: 'yakuman'; multiplier: 1 | 2 },
+) => {
+  expect(hasYaku(result.yaku, name)).toBe(true);
+  const value = getYaku(result.yaku, name);
+  expect(value).toEqual(expectedValue);
+};
 
 describe('Basic Examples', () => {
   it('usage', () => {
     const riichi = new Riichi('112233456789m11s');
-    expect(riichi.calc()).toEqual({
-      isAgari: true,
-      yakuman: 0,
-      yaku: { 一気通貫: '2飜', 一盃口: '1飜', 門前清自摸和: '1飜' },
-      han: 4,
-      fu: 30,
-      ten: 7900,
-      name: '',
-      text: '(南場西家)自摸 30符4飜 7900点(3900,2000)',
-      oya: [3900, 3900, 3900],
-      ko: [3900, 2000, 2000],
-      error: false,
+    const result = riichi.calc();
+    expect(result.isAgari).toBe(true);
+    expect(result.yakuman).toBe(0);
+    expect(result.han).toBe(4);
+    expect(result.fu).toBe(30);
+    expect(result.ten).toBe(7900);
+    expect(result.name).toBe('');
+    expect(result.error).toBe(false);
+    expect(result.scoreInfo.bakaze).toBe('東');
+    expect(result.scoreInfo.jikaze).toBe('南');
+    expect(result.scoreInfo.agariType).toBe('tsumo');
+    expect(result.payment.type).toBe('tsumo');
+    if (result.payment.type === 'tsumo') {
+      expect(result.payment.fromOya).toBe(3900);
+      expect(result.payment.fromKo).toBe(2000);
+    }
+    // 役の確認
+    expect(result.yaku).toContainEqual({
+      name: '一気通貫',
+      value: { type: 'han', count: 2 },
+    });
+    expect(result.yaku).toContainEqual({
+      name: '一盃口',
+      value: { type: 'han', count: 1 },
+    });
+    expect(result.yaku).toContainEqual({
+      name: '門前清自摸和',
+      value: { type: 'han', count: 1 },
     });
   });
 });
@@ -27,7 +57,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['国士無双']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '国士無双' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('国士無双十三面待ち', () => {
@@ -35,7 +72,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(2);
-    expect(result.yaku['国士無双十三面待ち']).toBe('ダブル役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '国士無双十三面待ち' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 2,
+      ),
+    ).toBe(true);
   });
 
   it('九蓮宝燈', () => {
@@ -43,7 +87,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['九蓮宝燈']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '九蓮宝燈' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('純正九蓮宝燈', () => {
@@ -51,7 +102,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(2);
-    expect(result.yaku['純正九蓮宝燈']).toBe('ダブル役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '純正九蓮宝燈' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 2,
+      ),
+    ).toBe(true);
   });
 
   it('四暗刻', () => {
@@ -59,7 +117,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['四暗刻']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '四暗刻' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('四暗刻単騎待ち', () => {
@@ -67,7 +132,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(2);
-    expect(result.yaku['四暗刻単騎待ち']).toBe('ダブル役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '四暗刻単騎待ち' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 2,
+      ),
+    ).toBe(true);
   });
 
   it('大三元', () => {
@@ -75,7 +147,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['大三元']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '大三元' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('小四喜', () => {
@@ -83,7 +162,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['小四喜']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '小四喜' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('大四喜', () => {
@@ -91,7 +177,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(2);
-    expect(result.yaku['大四喜']).toBe('ダブル役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '大四喜' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 2,
+      ),
+    ).toBe(true);
   });
 
   it('字一色', () => {
@@ -99,7 +192,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['字一色']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '字一色' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('緑一色', () => {
@@ -107,7 +207,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['緑一色']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '緑一色' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('清老頭', () => {
@@ -115,7 +222,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['清老頭']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '清老頭' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('四槓子', () => {
@@ -123,7 +237,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['四槓子']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '四槓子' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('天和', () => {
@@ -131,7 +252,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['天和']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '天和' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 
   it('地和', () => {
@@ -139,7 +267,14 @@ describe('役満 (Yakuman)', () => {
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(1);
-    expect(result.yaku['地和']).toBe('役満');
+    expect(
+      result.yaku.some(
+        (y) =>
+          y.name === '地和' &&
+          y.value.type === 'yakuman' &&
+          y.value.multiplier === 1,
+      ),
+    ).toBe(true);
   });
 });
 
@@ -148,35 +283,35 @@ describe('3-6飜役', () => {
     const riichi = new Riichi('112233456789m11m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['清一色']).toBe('6飜');
+    expectYaku(result, '清一色', { type: 'han', count: 6 });
   });
 
   it('清一色(食い下がり)', () => {
     const riichi = new Riichi('1234567811m9m+123m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['清一色']).toBe('5飜');
+    expectYaku(result, '清一色', { type: 'han', count: 5 });
   });
 
   it('混一色', () => {
     const riichi = new Riichi('123456m111222z33z');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['混一色']).toBe('3飜');
+    expectYaku(result, '混一色', { type: 'han', count: 3 });
   });
 
   it('二盃口', () => {
     const riichi = new Riichi('112233445566m77m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['二盃口']).toBe('3飜');
+    expectYaku(result, '二盃口', { type: 'han', count: 3 });
   });
 
   it('純全帯么九', () => {
     const riichi = new Riichi('123789m123789p99s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['純全帯么九']).toBe('3飜');
+    expectYaku(result, '純全帯么九', { type: 'han', count: 3 });
   });
 });
 
@@ -185,77 +320,77 @@ describe('2飜役', () => {
     const riichi = new Riichi('123789m111z999p11z');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['混全帯么九']).toBe('2飜');
+    expectYaku(result, '混全帯么九', { type: 'han', count: 2 });
   });
 
   it('対々和', () => {
     const riichi = new Riichi('111222m444p5p5p+333m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['対々和']).toBe('2飜');
+    expectYaku(result, '対々和', { type: 'han', count: 2 });
   });
 
   it('混老頭', () => {
     const riichi = new Riichi('111999m111p11z+999p');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['混老頭']).toBe('2飜');
+    expectYaku(result, '混老頭', { type: 'han', count: 2 });
   });
 
   it('三槓子', () => {
     const riichi = new Riichi('456m11p+50m+2222p+3333s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['三槓子']).toBe('2飜');
+    expectYaku(result, '三槓子', { type: 'han', count: 2 });
   });
 
   it('小三元', () => {
     const riichi = new Riichi('555666z77z123456m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['小三元']).toBe('2飜');
+    expectYaku(result, '小三元', { type: 'han', count: 2 });
   });
 
   it('三色同刻', () => {
     const riichi = new Riichi('222m222p222s34577s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['三色同刻']).toBe('2飜');
+    expectYaku(result, '三色同刻', { type: 'han', count: 2 });
   });
 
   it('三暗刻', () => {
     const riichi = new Riichi('111222333m456p77p');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['三暗刻']).toBe('2飜');
+    expectYaku(result, '三暗刻', { type: 'han', count: 2 });
   });
 
   it('七対子', () => {
     const riichi = new Riichi('112233m445566z77m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['七対子']).toBe('2飜');
+    expectYaku(result, '七対子', { type: 'han', count: 2 });
   });
 
   it('ダブル立直', () => {
     const riichi = new Riichi('112233456789m11s+w');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['ダブル立直']).toBe('2飜');
+    expectYaku(result, 'ダブル立直', { type: 'han', count: 2 });
   });
 
   it('一気通貫', () => {
     const riichi = new Riichi('123456789m111p22p');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['一気通貫']).toBe('2飜');
+    expectYaku(result, '一気通貫', { type: 'han', count: 2 });
   });
 
   it('三色同順', () => {
     const riichi = new Riichi('123m123p123s34577s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['三色同順']).toBe('2飜');
+    expectYaku(result, '三色同順', { type: 'han', count: 2 });
   });
 });
 
@@ -264,105 +399,105 @@ describe('1飜役', () => {
     const riichi = new Riichi('222333444m567m88m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['断么九']).toBe('1飜');
+    expectYaku(result, '断么九', { type: 'han', count: 1 });
   });
 
   it('平和', () => {
     const riichi = new Riichi('123456789m23444m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['平和']).toBe('1飜');
+    expectYaku(result, '平和', { type: 'han', count: 1 });
   });
 
   it('一盃口', () => {
     const riichi = new Riichi('112233m456789p55p');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['一盃口']).toBe('1飜');
+    expectYaku(result, '一盃口', { type: 'han', count: 1 });
   });
 
   it('門前清自摸和', () => {
     const riichi = new Riichi('112233456789m11s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['門前清自摸和']).toBe('1飜');
+    expectYaku(result, '門前清自摸和', { type: 'han', count: 1 });
   });
 
   it('立直', () => {
     const riichi = new Riichi('112233456789m11s+r');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['立直']).toBe('1飜');
+    expectYaku(result, '立直', { type: 'han', count: 1 });
   });
 
   it('一発', () => {
     const riichi = new Riichi('112233456789m11s+i');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['一発']).toBe('1飜');
+    expectYaku(result, '一発', { type: 'han', count: 1 });
   });
 
   it('嶺上開花', () => {
     const riichi = new Riichi('234567p888s99s+22m+k');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['嶺上開花']).toBe('1飜');
+    expectYaku(result, '嶺上開花', { type: 'han', count: 1 });
   });
 
   it('搶槓', () => {
     const riichi = new Riichi('112233456789m1s+1s+k');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['搶槓']).toBe('1飜');
+    expectYaku(result, '搶槓', { type: 'han', count: 1 });
   });
 
   it('海底摸月', () => {
     const riichi = new Riichi('112233456789m11s+h');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['海底摸月']).toBe('1飜');
+    expectYaku(result, '海底摸月', { type: 'han', count: 1 });
   });
 
   it('河底撈魚', () => {
     const riichi = new Riichi('112233456789m1s+h+1s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['河底撈魚']).toBe('1飜');
+    expectYaku(result, '河底撈魚', { type: 'han', count: 1 });
   });
 
   it('場風東', () => {
     const riichi = new Riichi('111z234567m888p99p+1');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['場風東']).toBe('1飜');
+    expectYaku(result, '場風東', { type: 'han', count: 1 });
   });
 
   it('自風東', () => {
     const riichi = new Riichi('111z234567m888p99p+1');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['自風東']).toBe('1飜');
+    expectYaku(result, '自風東', { type: 'han', count: 1 });
   });
 
   it('役牌白', () => {
     const riichi = new Riichi('555z123456m789p11p');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['役牌白']).toBe('1飜');
+    expectYaku(result, '役牌白', { type: 'han', count: 1 });
   });
 
   it('役牌発', () => {
     const riichi = new Riichi('666z123456m789p11p');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['役牌発']).toBe('1飜');
+    expectYaku(result, '役牌発', { type: 'han', count: 1 });
   });
 
   it('役牌中', () => {
     const riichi = new Riichi('777z123456m789p11p');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['役牌中']).toBe('1飜');
+    expectYaku(result, '役牌中', { type: 'han', count: 1 });
   });
 });
 
@@ -371,38 +506,38 @@ describe('ドラ (Dora)', () => {
     const riichi = new Riichi('112233456789m11s+d9m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['ドラ']).toBe('1飜');
+    expectYaku(result, 'ドラ', { type: 'han', count: 1 });
   });
 
   it('赤ドラ1枚', () => {
     const riichi = new Riichi('11223340678m9m99s');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['赤ドラ']).toBe('1飜');
+    expectYaku(result, '赤ドラ', { type: 'han', count: 1 });
   });
 
   it('裏ドラ1枚(立直時)', () => {
     const riichi = new Riichi('112233456789m11s+r+d8m+u9m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['立直']).toBe('1飜');
-    expect(result.yaku['ドラ']).toBe('1飜');
-    expect(result.yaku['裏ドラ']).toBe('1飜');
+    expectYaku(result, '立直', { type: 'han', count: 1 });
+    expectYaku(result, 'ドラ', { type: 'han', count: 1 });
+    expectYaku(result, '裏ドラ', { type: 'han', count: 1 });
   });
 
   it('裏ドラなし(立直なし)', () => {
     const riichi = new Riichi('112233456789m11s+u9m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['裏ドラ']).toBeUndefined();
+    expect(hasYaku(result.yaku, '裏ドラ')).toBe(false);
   });
 
   it('裏ドラのみ(立直時)', () => {
     const riichi = new Riichi('112233456789m11s+r+d9m+u1m');
     const result = riichi.calc();
     expect(result.isAgari).toBe(true);
-    expect(result.yaku['立直']).toBe('1飜');
-    expect(result.yaku['ドラ']).toBe('1飜');
-    expect(result.yaku['裏ドラ']).toBe('2飜');
+    expectYaku(result, '立直', { type: 'han', count: 1 });
+    expectYaku(result, 'ドラ', { type: 'han', count: 1 });
+    expectYaku(result, '裏ドラ', { type: 'han', count: 2 });
   });
 });
