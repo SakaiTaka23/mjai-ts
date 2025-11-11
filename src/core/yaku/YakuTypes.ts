@@ -74,8 +74,8 @@ export type YakuName =
   | '赤ドラ';
 
 export type YakuValue =
-  | { type: 'han'; count: number } // 通常役: 1-5飜など
-  | { type: 'yakuman'; multiplier: 1 | 2 }; // 役満: 1倍 or 2倍
+  | { type: 'han'; count: number }
+  | { type: 'yakuman'; multiplier: 1 | 2 | 3 | 4 | 5 | 6 };
 
 export interface YakuEntry {
   name: YakuName;

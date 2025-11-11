@@ -478,7 +478,7 @@ class Riichi {
           this.tmpResult.yakuman += n;
           this.tmpResult.yaku.push({
             name: k as YakuName,
-            value: { type: 'yakuman', multiplier: n as 1 | 2 },
+            value: { type: 'yakuman', multiplier: n as 1 | 2 | 3 | 4 | 5 | 6 },
           });
         } else {
           let n = v.han!;

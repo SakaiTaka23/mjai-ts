@@ -276,6 +276,14 @@ describe('役満 (Yakuman)', () => {
       ),
     ).toBe(true);
   });
+
+  it('6倍役満', () => {
+    // 字一色 大四喜 四槓子 四暗刻単騎
+    const riichi = new Riichi('5z+11z+22z+33z+44z+5z');
+    const result = riichi.calc();
+    expect(result.isAgari).toBe(true);
+    expect(result.yakuman).toBe(6);
+  });
 });
 
 describe('3-6飜役', () => {

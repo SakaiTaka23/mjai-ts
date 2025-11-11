@@ -33,7 +33,20 @@ export function formatYakuValue(value: YakuValue): string {
   if (value.type === 'han') {
     return `${value.count}飜`;
   } else {
-    return value.multiplier === 1 ? '役満' : 'ダブル役満';
+    switch (value.multiplier) {
+      case 1:
+        return '役満';
+      case 2:
+        return 'ダブル役満';
+      case 3:
+        return '三倍役満';
+      case 4:
+        return '四倍役満';
+      case 5:
+        return '五倍役満';
+      case 6:
+        return '六倍役満';
+    }
   }
 }
 
@@ -42,6 +55,14 @@ export function parseYakuString(str: string): YakuValue {
     return { type: 'yakuman', multiplier: 1 };
   } else if (str === 'ダブル役満') {
     return { type: 'yakuman', multiplier: 2 };
+  } else if (str === '三倍役満') {
+    return { type: 'yakuman', multiplier: 3 };
+  } else if (str === '四倍役満') {
+    return { type: 'yakuman', multiplier: 4 };
+  } else if (str === '五倍役満') {
+    return { type: 'yakuman', multiplier: 5 };
+  } else if (str === '六倍役満') {
+    return { type: 'yakuman', multiplier: 6 };
   } else {
     const match = /^(\d+)飜$/.exec(str);
     if (match) {
