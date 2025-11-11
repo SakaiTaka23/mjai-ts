@@ -96,7 +96,7 @@ export type ScoreName =
   | '5倍役満'
   | '6倍役満';
 
-export type Kaze = '東' | '南' | '西' | '北';
+export type Kaze = 'E' | 'S' | 'W' | 'N';
 export type AgariType = 'tsumo' | 'ron';
 export interface HairiResult {
   now: number;

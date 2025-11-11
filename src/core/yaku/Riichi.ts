@@ -17,10 +17,10 @@ const MPSZ = ['m', 'p', 's', 'z'];
 
 const numberToKaze = (num: number): Kaze => {
   const kazeMap: Record<number, Kaze> = {
-    1: '東',
-    2: '南',
-    3: '西',
-    4: '北',
+    1: 'E',
+    2: 'S',
+    3: 'W',
+    4: 'N',
   };
   return kazeMap[num] || '東';
 };
@@ -146,8 +146,8 @@ class Riichi {
       ten: 0,
       name: '',
       scoreInfo: {
-        bakaze: '東',
-        jikaze: '南',
+        bakaze: 'E',
+        jikaze: 'S',
         agariType: 'tsumo',
       },
       payment: {
@@ -166,8 +166,8 @@ class Riichi {
       ten: 0,
       name: '',
       scoreInfo: {
-        bakaze: '東',
-        jikaze: '南',
+        bakaze: 'E',
+        jikaze: 'S',
         agariType: 'tsumo',
       },
       payment: {
