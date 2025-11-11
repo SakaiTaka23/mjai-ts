@@ -1,8 +1,5 @@
 import { HaiArr } from './YakuTypes';
 
-/*
- * @Copyright https://github.com/takayama-lily/syanten
- */
 const sum = (arr: number[]) => {
   let s = 0;
   for (const value of arr) {

@@ -1,6 +1,3 @@
-/*
- * Copyright (C) https://github.com/takayama-lily/riichi
- */
 import { checkAll, findAllAgariPatterns } from './Agari';
 import { hairi } from './Shanten';
 import { YAKU } from './Yaku';

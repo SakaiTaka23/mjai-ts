@@ -8,6 +8,8 @@ A TypeScript implementation of mahjong game log parser and core logic library.
 - Type definitions for game events
 - State management for discards (kawa) and hands (tehai)
 - Handle basic mahjong actions like discard and calls
+- Score calculation (core/yaku package) inspired by
+  - https://github.com/takayama-lily/riichi
 
 ## Project Structure
 

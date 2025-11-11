@@ -1,7 +1,3 @@
-/*
- * @Copyright https://github.com/takayama-lily/agari
- */
-
 import { HaiArr } from './YakuTypes';
 
 const MPSZ = ['m', 'p', 's', 'z'];

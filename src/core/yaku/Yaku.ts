@@ -1,9 +1,6 @@
 import { check7, check13 } from './Agari';
 import { Riichi } from './Riichi';
 
-/*
- * Copyright (C) https://github.com/takayama-lily/riichi
- */
 const MPSZ = ['m', 'p', 's', 'z'];
 
 const checkAllowed = (o: Riichi, allowed: string[]) => {
