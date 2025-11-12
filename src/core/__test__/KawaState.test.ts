@@ -32,6 +32,7 @@ describe('Kawa State', () => {
       },
     ]);
     expect(actual.remaining).toEqual(70);
+    expect(actual.isHaiteiHotei).toBe(false);
   });
 
   it('should dahai', () => {

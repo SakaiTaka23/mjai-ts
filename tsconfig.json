@@ -12,17 +12,9 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@types": [
-        "src/types"
-      ]
+      "@types": ["src/types"]
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "*.js",
-    "*.ts",
-    "dist"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["*.js", "*.ts", "dist"]
 }
