@@ -27,8 +27,8 @@ describe('Basic Examples', () => {
     expect(result.ten).toBe(7900);
     expect(result.name).toBe('');
     expect(result.error).toBe(false);
-    expect(result.scoreInfo.bakaze).toBe('東');
-    expect(result.scoreInfo.jikaze).toBe('南');
+    expect(result.scoreInfo.bakaze).toBe('E');
+    expect(result.scoreInfo.jikaze).toBe('S');
     expect(result.scoreInfo.agariType).toBe('tsumo');
     expect(result.payment.type).toBe('tsumo');
     if (result.payment.type === 'tsumo') {
