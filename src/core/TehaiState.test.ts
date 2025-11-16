@@ -12,7 +12,7 @@ import {
   Tsumo,
 } from '@types';
 
-import { TehaiState } from '../TehaiState';
+import { TehaiState } from './TehaiState';
 
 type initialHand = [
   Tile,

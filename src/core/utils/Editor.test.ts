@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Tile } from '@types';
 
-import { addTehai, removeTehai } from '../Editor';
+import { addTehai, removeTehai } from './Editor';
 
 describe('Editor', () => {
   describe('addTehai', () => {

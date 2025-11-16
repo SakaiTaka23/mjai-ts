@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { StartKyoku, Tile } from '@types';
 
-import { ScoreState } from '../ScoreState';
+import { ScoreState } from './ScoreState';
 
 const mockStartKyoku = (
   initialScore: [number, number, number, number],
