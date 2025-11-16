@@ -5,10 +5,43 @@ import {
   HaiArr,
   HaiString,
   AgariPattern,
-  RiichiCalcResult,
   Kaze,
   YakuName,
+  CalcResult,
+  CalcResultType,
+  YakuEntry,
+  ScoreName,
+  AgariType,
+  HairiResult,
 } from './YakuTypes';
+
+interface InternalCalcResult {
+  isAgari: boolean;
+  error: boolean;
+  yakuman: number;
+  yaku: YakuEntry[];
+  han: number;
+  fu: number;
+  ten: number;
+  name: ScoreName;
+  scoreInfo: {
+    bakaze: Kaze;
+    jikaze: Kaze;
+    agariType: AgariType;
+  };
+  payment:
+    | {
+        type: 'tsumo';
+        fromOya: number;
+        fromKo: number;
+      }
+    | {
+        type: 'ron';
+        amount: number;
+      };
+  hairi?: HairiResult;
+  hairi7and13?: HairiResult;
+}
 
 const MPSZ = ['m', 'p', 's', 'z'];
 
@@ -86,7 +119,7 @@ const parse = (text: string) => {
   return { res: tmp, aka: aka };
 };
 
-class Riichi {
+export class Riichi {
   hai: HaiString[];
   haiArray: HaiArr;
   furo: HaiString[][];
@@ -101,8 +134,8 @@ class Riichi {
   aka: number;
   agariPatterns: AgariPattern[];
   currentPattern: AgariPattern;
-  tmpResult: RiichiCalcResult;
-  finalResult: RiichiCalcResult;
+  tmpResult: InternalCalcResult;
+  finalResult: InternalCalcResult;
   allLocalEnabled: boolean;
   localEnabled: string[];
   disabled: string[];
@@ -249,7 +282,7 @@ class Riichi {
     this.tmpResult.error = false;
     this.finalResult = JSON.parse(
       JSON.stringify(this.tmpResult),
-    ) as RiichiCalcResult;
+    ) as InternalCalcResult;
   }
 
   /**
@@ -525,20 +558,33 @@ class Riichi {
   /**
    * main
    */
-  calc() {
+  calc(): CalcResult {
     if (this.tmpResult.error) {
-      return this.tmpResult;
+      return {
+        type: CalcResultType.ERROR,
+        isAgari: false,
+        error: true,
+      };
     }
     this.tmpResult.isAgari = checkAll(this.haiArray);
     if (
       !this.tmpResult.isAgari ||
       this.hai.length + this.furo.length * 3 !== 14
     ) {
-      if (this.hairi) {
-        this.tmpResult.hairi = hairi(this.haiArray);
-        this.tmpResult.hairi7and13 = hairi(this.haiArray, true);
-      }
-      return this.tmpResult;
+      const hairiResult = this.hairi
+        ? hairi(this.haiArray)
+        : { now: 0, wait: undefined };
+      const hairi7and13Result = this.hairi
+        ? hairi(this.haiArray, true)
+        : { now: 0, wait: undefined };
+
+      return {
+        type: CalcResultType.NOTEN,
+        isAgari: false,
+        error: false,
+        hairi: hairiResult,
+        hairi7and13: hairi7and13Result,
+      };
     }
 
     this.finalResult.isAgari = true;
@@ -568,18 +614,28 @@ class Riichi {
       if (this.tmpResult.ten > this.finalResult.ten)
         this.finalResult = JSON.parse(
           JSON.stringify(this.tmpResult),
-        ) as RiichiCalcResult;
+        ) as InternalCalcResult;
       else if (
         this.tmpResult.ten === this.finalResult.ten &&
         this.tmpResult.han > this.finalResult.han
       )
         this.finalResult = JSON.parse(
           JSON.stringify(this.tmpResult),
-        ) as RiichiCalcResult;
+        ) as InternalCalcResult;
     }
 
-    return this.finalResult;
+    return {
+      type: CalcResultType.AGARI,
+      isAgari: true,
+      error: false,
+      yakuman: this.finalResult.yakuman,
+      yaku: this.finalResult.yaku,
+      han: this.finalResult.han,
+      fu: this.finalResult.fu,
+      ten: this.finalResult.ten,
+      name: this.finalResult.name,
+      scoreInfo: this.finalResult.scoreInfo,
+      payment: this.finalResult.payment,
+    };
   }
 }
-
-export { Riichi };
