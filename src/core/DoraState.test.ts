@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Dora, StartKyoku, Tile } from '@types';
 
-import { DoraState } from '../DoraState';
+import { DoraState } from './DoraState';
 
 const mockStartKyoku = (initialDora: Tile): StartKyoku => {
   const startHand: [

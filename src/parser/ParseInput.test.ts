@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Event } from '@types';
 
-import { ParseInput } from '../ParseInput';
+import { ParseInput } from './ParseInput';
 
 describe('should parse input', () => {
   it('should parse with multiple kyoku', () => {

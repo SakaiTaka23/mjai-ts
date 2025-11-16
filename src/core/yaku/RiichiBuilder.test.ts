@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { assertAgariResult } from './Riichi.test';
 import { createRiichiFromParams } from './RiichiBuilder';
+import { assertAgariResult } from './TestHelper';
 
 describe('Basic Examples from params', () => {
   it('usage', () => {

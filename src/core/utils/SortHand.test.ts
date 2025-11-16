@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Tile } from '@types';
 
-import { sortHand } from '../SortHand';
+import { sortHand } from './SortHand';
 
 describe('sortHand', () => {
   it('should sort manzu tiles correctly', () => {

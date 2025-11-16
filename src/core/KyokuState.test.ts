@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { PlayerID, ReachAccepted, StartKyoku, Tile } from '@types';
 
-import { KyokuState } from '../KyokuState';
+import { KyokuState } from './KyokuState';
 
 interface managed {
   kyoku: number;

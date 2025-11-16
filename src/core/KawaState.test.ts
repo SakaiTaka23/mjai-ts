@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Chi, Dahai, Reach, ReachAccepted, Tsumo } from '@types';
 
-import { KawaState } from '../KawaState';
+import { KawaState } from './KawaState';
 
 describe('Kawa State', () => {
   it('should init kawa', () => {
