@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
-import { assertAgariResult } from './Helper.test';
 import { Riichi } from './Riichi';
+import { assertAgariResult } from './TestHelper';
 import { hasYaku, getYaku } from './YakuHelpers';
 import { type YakuName, type AgariResult, CalcResultType } from './YakuTypes';
 
