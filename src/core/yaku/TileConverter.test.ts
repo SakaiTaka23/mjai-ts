@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { Riichi } from './Riichi';
+import { assertAgariResult } from './Riichi.test';
 import { ConvertFull } from './TileConverter';
 
 describe('Basic Examples', () => {
@@ -39,6 +40,7 @@ describe('Basic Examples', () => {
 
     const riichi = new Riichi(fullString);
     const result = riichi.calc();
+    assertAgariResult(result);
     expect(result.isAgari).toBe(true);
     expect(result.yakuman).toBe(0);
     expect(result.han).toBe(4);

@@ -104,9 +104,36 @@ export interface HairiResult {
   [key: string]: Map<string, number> | number | undefined;
 }
 
-export interface RiichiCalcResult {
+export enum CalcResultType {
+  ERROR = 'error',
+  NOTEN = 'noten',
+  AGARI = 'agari',
+}
+
+export interface BaseCalcResult {
+  type: CalcResultType;
   isAgari: boolean;
   error: boolean;
+}
+
+export interface ErrorResult extends BaseCalcResult {
+  type: CalcResultType.ERROR;
+  isAgari: false;
+  error: true;
+}
+
+export interface NotenResult extends BaseCalcResult {
+  type: CalcResultType.NOTEN;
+  isAgari: false;
+  error: false;
+  hairi: HairiResult;
+  hairi7and13: HairiResult;
+}
+
+export interface AgariResult extends BaseCalcResult {
+  type: CalcResultType.AGARI;
+  isAgari: true;
+  error: false;
   yakuman: number;
   yaku: YakuEntry[];
   han: number;
@@ -128,6 +155,6 @@ export interface RiichiCalcResult {
         type: 'ron';
         amount: number;
       };
-  hairi?: HairiResult;
-  hairi7and13?: HairiResult;
 }
+
+export type CalcResult = ErrorResult | NotenResult | AgariResult;

@@ -1,9 +1,4 @@
-import type {
-  YakuName,
-  YakuValue,
-  YakuEntry,
-  RiichiCalcResult,
-} from './YakuTypes';
+import type { YakuName, YakuValue, YakuEntry, AgariResult } from './YakuTypes';
 
 export function toStringYakuName(name: YakuName): string {
   return name;
@@ -73,7 +68,7 @@ export function parseYakuString(str: string): YakuValue {
 }
 
 export function paymentToArrays(
-  payment: RiichiCalcResult['payment'],
+  payment: AgariResult['payment'],
   isOya: boolean,
 ): { oya: number[]; ko: number[] } {
   if (payment.type === 'tsumo') {
