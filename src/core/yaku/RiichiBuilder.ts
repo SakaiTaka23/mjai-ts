@@ -1,5 +1,7 @@
-import { Tile, Wind } from '@types';
+import { PlayerID, Tile, Wind } from '@types';
 
+import { Riichi } from './Riichi';
+import { GameState } from '../GameState';
 import { Fuuro } from '../types/Tehai';
 
 const ConvertTile = (tile: Tile | Tile[]): string => {
@@ -53,14 +55,16 @@ const ConvertFuuro = (fuuro: Fuuro): string => {
 const ConvertHand = (
   tehai: Tile[],
   fuuro: Fuuro[],
-  horaTile: Tile,
+  horaTile: Tile | null,
   isRon: boolean,
 ): string => {
   let tiles = tehai.map((tile) => ConvertTile(tile)).join('');
-  if (isRon) {
-    tiles += `+${ConvertTile(horaTile)}`;
-  } else {
-    tiles += ConvertTile(horaTile);
+  if (horaTile !== null) {
+    if (isRon) {
+      tiles += `+${ConvertTile(horaTile)}`;
+    } else {
+      tiles += ConvertTile(horaTile);
+    }
   }
 
   if (fuuro.length === 0) {
@@ -122,22 +126,22 @@ const ConvertExtra = (
   return `${extras}${bakazeExtra}${jikazeExtra}`;
 };
 
-export const ConvertFull = (
+export const createRiichiFromParams = (
   tehai: Tile[],
   fuuro: Fuuro[],
-  horaTile: Tile,
-  isRon: boolean,
-  dora: Tile[],
-  uraDora: Tile[],
-  isTenchiho: boolean,
-  isDoubleReach: boolean,
-  isIpatsu: boolean,
-  isReach: boolean,
-  isHaiteiHotei: boolean,
-  isChankanRinshan: boolean,
-  bakaaze: Wind,
-  zikaze: Wind,
-): string => {
+  horaTile: Tile | null = null,
+  isRon = false,
+  dora: Tile[] = [],
+  uraDora: Tile[] = [],
+  isTenchiho = false,
+  isDoubleReach = false,
+  isIpatsu = false,
+  isReach = false,
+  isHaiteiHotei = false,
+  isChankanRinshan = false,
+  bakaaze: Wind = 'E',
+  zikaze: Wind = 'E',
+): Riichi => {
   const handPart = ConvertHand(tehai, fuuro, horaTile, isRon);
   const doraPart = ConvertDora(dora);
   const uraDoraPart = ConvertUraDora(uraDora);
@@ -153,7 +157,54 @@ export const ConvertFull = (
   );
 
   if (uraDoraPart === null) {
-    return `${handPart}+${doraPart}+${extraPart}`;
+    return new Riichi(`${handPart}+${doraPart}+${extraPart}`);
   }
-  return `${handPart}+${doraPart}+${uraDoraPart}+${extraPart}`;
+  return new Riichi(`${handPart}+${doraPart}+${uraDoraPart}+${extraPart}`);
+};
+
+export const createRiichiFromState = (
+  state: GameState,
+  playerID: PlayerID,
+): Riichi => {
+  const hand = state.TehaiState.get()[playerID];
+  const hora = state.KyokuState.horaPlayers();
+  const horaPlayer = Array.from(hora).find((hp) => hp.playerId === playerID);
+  let horaTile: Tile | null = null;
+  let isRon = false;
+  let uraDora: Tile[] = [];
+  if (horaPlayer) {
+    horaTile = horaPlayer.horaTile;
+    if (horaPlayer.playerId !== horaPlayer.targetPlayerId) {
+      isRon = true;
+    }
+    uraDora = horaPlayer.uraDora;
+  }
+  const dora = state.DoraState.getActualDora();
+  const riichi = state.KyokuState.reachPlayers();
+  const riichiPlayer = Array.from(riichi).find(
+    (rp) => rp.playerId === playerID,
+  );
+  const isTenchiho = state.KyokuState.isTenChiho().at(playerID)!;
+  const isDoubleReach = riichiPlayer ? riichiPlayer.isDoubleReach : false;
+  const isIpatsu = riichiPlayer ? riichiPlayer.isIpatsu : false;
+  const isReach = riichiPlayer !== undefined;
+  const isHaiteiHotei = state.KawaState.isHaiteiHotei();
+  const isChankanRinshan = state.KyokuState.isChankanRinshan();
+
+  return createRiichiFromParams(
+    hand.tehai,
+    hand.fuuros,
+    horaTile,
+    isRon,
+    dora,
+    uraDora,
+    isTenchiho,
+    isDoubleReach,
+    isIpatsu,
+    isReach,
+    isHaiteiHotei,
+    isChankanRinshan,
+    state.KyokuState.bakaze(),
+    state.KyokuState.wind(playerID),
+  );
 };

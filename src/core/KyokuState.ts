@@ -123,7 +123,7 @@ export const KyokuState = (start: StartKyoku): InternalKyokuState => {
     kyotaku: () => kyotaku,
     bakaze: () => bakaze,
     oya: () => oya,
-    isTenChiho: () => [...isTenChiho],
+    isTenChiho: () => [...isTenChiho] as [boolean, boolean, boolean, boolean],
     isChankanRinshan: () => isChankanRinshan,
     reachPlayers: () => reachPlayers,
     horaPlayers: () => horaPlayers,

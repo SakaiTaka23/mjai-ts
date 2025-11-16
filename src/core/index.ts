@@ -17,8 +17,12 @@ export type {
   ScoreName,
   Kaze,
   AgariType,
-  RiichiCalcResult,
   HairiResult,
+  CalcResultType,
+  ErrorResult,
+  NotenResult,
+  AgariResult,
+  CalcResult,
 } from './yaku/YakuTypes';
 export {
   toStringYakuName,
