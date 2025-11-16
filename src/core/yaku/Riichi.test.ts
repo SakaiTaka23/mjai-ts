@@ -1,21 +1,9 @@
 import { describe, it, expect } from 'vitest';
 
+import { assertAgariResult } from './Helper.test';
 import { Riichi } from './Riichi';
 import { hasYaku, getYaku } from './YakuHelpers';
-import {
-  type YakuName,
-  type AgariResult,
-  type CalcResult,
-  CalcResultType,
-} from './YakuTypes';
-
-export const assertAgariResult: (
-  result: CalcResult,
-) => asserts result is AgariResult = (result: CalcResult) => {
-  if (result.type !== CalcResultType.AGARI) {
-    throw new Error(`Expected agari result but got ${result.type}`);
-  }
-};
+import { type YakuName, type AgariResult, CalcResultType } from './YakuTypes';
 
 const expectYaku = (
   result: AgariResult,
