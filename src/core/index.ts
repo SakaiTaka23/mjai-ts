@@ -10,6 +10,10 @@ export type {
 export type { HandState, KakanFuuro, Fuuro } from './types/Tehai';
 export type { Kawa } from './types/Kawa';
 export { Riichi } from './yaku/Riichi';
+export {
+  createRiichiFromParams,
+  createRiichiFromState,
+} from './yaku/RiichiBuilder';
 export type {
   YakuName,
   YakuValue,
