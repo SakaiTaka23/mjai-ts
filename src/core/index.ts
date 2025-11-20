@@ -22,12 +22,12 @@ export type {
   Kaze,
   AgariType,
   HairiResult,
-  CalcResultType,
   ErrorResult,
   NotenResult,
   AgariResult,
   CalcResult,
 } from './yaku/YakuTypes';
+export { CalcResultType } from './yaku/YakuTypes';
 export {
   toStringYakuName,
   hasYaku,
