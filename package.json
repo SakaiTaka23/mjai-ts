@@ -1,6 +1,6 @@
 {
   "name": "mjai-ts",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "TypeScript library for parsing and managing mjai format mahjong game logs with core game state management",
   "license": "MIT",
   "keywords": [
