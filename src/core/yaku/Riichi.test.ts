@@ -51,7 +51,9 @@ describe('Basic Examples', () => {
       name: '門前清自摸和',
       value: { type: 'han', count: 1 },
     });
+    expect(riichi.rawString()).toBe('112233456789m11s');
   });
+
 });
 
 describe('役満 (Yakuman)', () => {

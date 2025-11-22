@@ -120,6 +120,7 @@ const parse = (text: string) => {
 };
 
 export class Riichi {
+  rawData: string;
   hai: HaiString[];
   haiArray: HaiArr;
   furo: HaiString[][];
@@ -148,6 +149,7 @@ export class Riichi {
    * @param string data
    */
   constructor(data: string) {
+    this.rawData = data;
     this.hai = [];
     this.haiArray = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -637,5 +639,9 @@ export class Riichi {
       scoreInfo: this.finalResult.scoreInfo,
       payment: this.finalResult.payment,
     };
+  }
+
+  rawString(): string {
+    return this.rawData;
   }
 }
