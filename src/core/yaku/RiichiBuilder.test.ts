@@ -68,3 +68,35 @@ describe('Basic Examples from params', () => {
     });
   });
 });
+
+describe('Test Builder Fuuro conversion', () => {
+  it('chi conversion', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m', '1s'],
+      [{ type: 'chi', actor: 1, target: 0, pai: '2m', consumed: ['1m', '3m'] }],
+      '1s',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+123m+00');
+  });
+
+  it('chi conversion with aka', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '1m', '2m', '2m', '3m', '3m', '7m', '8m', '9m', '1s'],
+      [
+        {
+          type: 'chi',
+          actor: 1,
+          target: 0,
+          pai: '5mr',
+          consumed: ['4m', '6m'],
+        },
+      ],
+      '1s',
+    );
+    const result = riichi.calc();
+    expect(riichi.rawString()).toBe('1m1m2m2m3m3m7m8m9m1s1s+406m+00');
+    assertAgariResult(result);
+  });
+});
