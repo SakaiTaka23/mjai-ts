@@ -99,4 +99,136 @@ describe('Test Builder Fuuro conversion', () => {
     expect(riichi.rawString()).toBe('1m1m2m2m3m3m7m8m9m1s1s+406m+00');
     assertAgariResult(result);
   });
+
+  it('ankan conversion', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m', '1s'],
+      [{ type: 'ankan', actor: 0, consumed: ['E', 'E', 'E', 'E'] }],
+      '1s',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+11z+00');
+  });
+
+  it('ankan conversion with aka', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '6m', '6m', '7m', '7m', '8m', '8m'],
+      [{ type: 'ankan', actor: 0, consumed: ['5m', '5m', '5mr', '5m'] }],
+      '1m',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+50m+00');
+  });
+
+  it('pon conversion', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m', '1s'],
+      [{ type: 'pon', actor: 0, target: 1, pai: 'E', consumed: ['E', 'E'] }],
+      '1s',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+111z+00');
+  });
+
+  it('pon conversion with aka', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '6m', '6m', '7m', '7m', '8m', '8m'],
+      [
+        {
+          type: 'pon',
+          actor: 0,
+          target: 1,
+          pai: '5mr',
+          consumed: ['5m', '5m'],
+        },
+      ],
+      '1m',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+505m+00');
+  });
+
+  it('daiminkan conversion', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m', '1s'],
+      [
+        {
+          type: 'daiminkan',
+          actor: 0,
+          target: 1,
+          pai: 'E',
+          consumed: ['E', 'E', 'E'],
+        },
+      ],
+      '1s',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+1111z+00');
+  });
+
+  it('daiminkan conversion with aka', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '6m', '6m', '7m', '7m', '8m', '8m'],
+      [
+        {
+          type: 'daiminkan',
+          actor: 0,
+          target: 1,
+          pai: '5mr',
+          consumed: ['5m', '5m', '5m'],
+        },
+      ],
+      '1m',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+5055m+00');
+  });
+
+  it('kakan conversion', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m', '1s'],
+      [
+        {
+          type: 'kakan',
+          actor: 0,
+          ponTarget: 1,
+          ponPai: 'E',
+          ponConsumed: ['E', 'E'],
+          pai: 'E',
+          consumed: ['E', 'E', 'E'],
+        },
+      ],
+      '1s',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+1111z+00');
+  });
+
+  it('kakan conversion with aka', () => {
+    const riichi = createRiichiFromParams(
+      ['1m', '2m', '3m', '4m', '6m', '6m', '7m', '7m', '8m', '8m'],
+      [
+        {
+          type: 'kakan',
+          actor: 0,
+          ponTarget: 1,
+          ponPai: '5mr',
+          ponConsumed: ['5m', '5m'],
+          pai: '5mr',
+          consumed: ['5m', '5m', '5m'],
+        },
+      ],
+      '1m',
+    );
+    const result = riichi.calc();
+    assertAgariResult(result);
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+5055m+00');
+  });
 });
