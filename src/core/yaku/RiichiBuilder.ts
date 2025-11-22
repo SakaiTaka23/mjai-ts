@@ -79,7 +79,10 @@ const ConvertWind = (wind: Wind): string => {
   return windMap.indexOf(wind).toString();
 };
 
-const ConvertDora = (dora: Tile[]): string => {
+const ConvertDora = (dora: Tile[]): string | null => {
+  if (dora.length === 0) {
+    return null;
+  }
   return `d${dora.map((tile) => ConvertTile(tile)).join('')}`;
 };
 
@@ -156,10 +159,14 @@ export const createRiichiFromParams = (
     zikaze,
   );
 
-  if (uraDoraPart === null) {
-    return new Riichi(`${handPart}+${doraPart}+${extraPart}`);
+  let rawString = `${handPart}`;
+  if (doraPart !== null) {
+    rawString += `+${doraPart}`;
   }
-  return new Riichi(`${handPart}+${doraPart}+${uraDoraPart}+${extraPart}`);
+  if (uraDoraPart !== null) {
+    rawString += `+${uraDoraPart}`;
+  }
+  return new Riichi(`${rawString}+${extraPart}`);
 };
 
 export const createRiichiFromState = (
