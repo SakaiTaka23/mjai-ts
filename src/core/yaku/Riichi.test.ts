@@ -53,7 +53,6 @@ describe('Basic Examples', () => {
     });
     expect(riichi.rawString()).toBe('112233456789m11s');
   });
-
 });
 
 describe('役満 (Yakuman)', () => {
