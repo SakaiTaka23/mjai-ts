@@ -35,20 +35,49 @@ const ConvertTile = (tile: Tile | Tile[]): string => {
   }
 };
 
+const formatContinuousTiles = (tiles: Tile[]): string => {
+  const converted = tiles.map((tile) => ConvertTile(tile));
+  // 0 must be treated as 5 when converting since it is 5 aka
+  const sorted = converted.sort((a, b) => {
+    const numA = a.startsWith('0') ? 5 : parseInt(a[0]);
+    const numB = b.startsWith('0') ? 5 : parseInt(b[0]);
+    return numA - numB;
+  });
+  const nums = sorted.map((c) => c.slice(0, -1)).join('');
+  const suit = sorted[0].slice(-1);
+  return nums + suit;
+};
+
+const formatSameTiles = (tiles: Tile[], repeatCount: 2 | 3 | 4): string => {
+  const unique = [...new Set(tiles)];
+  const converted = unique.map((tile) => ConvertTile(tile));
+  const nums = converted
+    .map((c) => c.slice(0, -1))
+    // This is to guarantee that 0 comes after all the other tile numbers
+    .sort((a, b) => Number(b) - Number(a));
+  const suit = converted[0].slice(-1);
+  let result = '';
+
+  if (nums.length === 1) {
+    result += nums[0].repeat(2);
+  } else {
+    result += nums.join('');
+  }
+
+  return (result += nums[0].repeat(repeatCount - 2) + suit);
+};
+
 const ConvertFuuro = (fuuro: Fuuro): string => {
   switch (fuuro.type) {
-    case 'ankan': {
-      const unique = [...new Set(fuuro.consumed)];
-      if (unique.length >= 2) {
-        return ConvertTile(unique[0]) + ConvertTile(unique[1]);
-      }
-      return ConvertTile(unique[0]) + ConvertTile(unique[0]);
-    }
     case 'chi':
+      return formatContinuousTiles([fuuro.pai, ...fuuro.consumed]);
+    case 'ankan':
+      return formatSameTiles(fuuro.consumed, 2);
+    case 'pon':
+      return formatSameTiles([fuuro.pai, ...fuuro.consumed], 3);
     case 'daiminkan':
     case 'kakan':
-    case 'pon':
-      return ConvertTile(fuuro.pai) + ConvertTile(fuuro.consumed);
+      return formatSameTiles([fuuro.pai, ...fuuro.consumed], 4);
   }
 };
 
@@ -79,7 +108,10 @@ const ConvertWind = (wind: Wind): string => {
   return windMap.indexOf(wind).toString();
 };
 
-const ConvertDora = (dora: Tile[]): string => {
+const ConvertDora = (dora: Tile[]): string | null => {
+  if (dora.length === 0) {
+    return null;
+  }
   return `d${dora.map((tile) => ConvertTile(tile)).join('')}`;
 };
 
@@ -156,10 +188,14 @@ export const createRiichiFromParams = (
     zikaze,
   );
 
-  if (uraDoraPart === null) {
-    return new Riichi(`${handPart}+${doraPart}+${extraPart}`);
+  let rawString = `${handPart}`;
+  if (doraPart !== null) {
+    rawString += `+${doraPart}`;
   }
-  return new Riichi(`${handPart}+${doraPart}+${uraDoraPart}+${extraPart}`);
+  if (uraDoraPart !== null) {
+    rawString += `+${uraDoraPart}`;
+  }
+  return new Riichi(`${rawString}+${extraPart}`);
 };
 
 export const createRiichiFromState = (

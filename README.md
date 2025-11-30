@@ -177,7 +177,9 @@ new Riichi('112233456789m1s+1s'); // Ron (winning on discard)
 #### Calls (Fuuro)
 
 ```typescript
-// 123m = chi, 55z = ankan, 666z = pon, 7777z = daiminkan
+// 123m = chi, 55z = ankan, 666z = pon, 7777z = daiminkan, kakan
+// These string must only contain the suit on the end of the fuuro -> 1m2m3m is invalid
+// For chi the number must be sorted and also treat red 5 as 5 -> 132m is invalid, 046m is invalid must be 405m
 new Riichi('1s+1s+123m55z666z7777z');
 ```
 
