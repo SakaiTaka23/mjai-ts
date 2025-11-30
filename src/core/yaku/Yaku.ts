@@ -469,9 +469,8 @@ const YAKU: Record<string, YakuDef> = {
       for (let iInt = 0; iInt < o.currentPattern.length; iInt++) {
         const v = o.currentPattern[iInt];
         if (Array.isArray(v) && v.length === 3 && v[0] != v[1]) {
-          while (iInt < 4) {
-            iInt++;
-            const pattern = o.currentPattern[iInt];
+          for (let jInt = iInt + 1; jInt < o.currentPattern.length; jInt++) {
+            const pattern = o.currentPattern[jInt];
             if (
               Array.isArray(pattern) &&
               Array.isArray(v) &&
