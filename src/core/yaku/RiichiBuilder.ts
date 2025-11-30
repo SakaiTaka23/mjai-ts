@@ -3,6 +3,7 @@ import { PlayerID, Tile, Wind } from '@types';
 import { Riichi } from './Riichi';
 import { GameState } from '../GameState';
 import { Fuuro } from '../types/Tehai';
+import { calcActualDora } from '../utils/CalcActualDora';
 
 const ConvertTile = (tile: Tile | Tile[]): string => {
   if (Array.isArray(tile)) {
@@ -119,7 +120,7 @@ const ConvertUraDora = (uraDora: Tile[]): string | null => {
   if (uraDora.length === 0) {
     return null;
   }
-  return `u${uraDora.map((tile) => ConvertTile(tile)).join('')}`;
+  return `u${uraDora.map((tile) => ConvertTile(calcActualDora(tile))).join('')}`;
 };
 
 const ConvertExtra = (
