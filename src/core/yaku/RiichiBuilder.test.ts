@@ -45,8 +45,8 @@ describe('Basic Examples from params', () => {
     expect(result.ten).toBe(7900);
     expect(result.name).toBe('');
     expect(result.error).toBe(false);
-    expect(result.scoreInfo.bakaze).toBe('E');
-    expect(result.scoreInfo.jikaze).toBe('S');
+    expect(result.scoreInfo.bakaze).toBe('S');
+    expect(result.scoreInfo.jikaze).toBe('W');
     expect(result.scoreInfo.agariType).toBe('tsumo');
     expect(result.payment.type).toBe('tsumo');
     if (result.payment.type === 'tsumo') {
@@ -78,7 +78,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+123m+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+123m+11');
   });
 
   it('chi conversion with aka', () => {
@@ -96,7 +96,7 @@ describe('Test Builder Fuuro conversion', () => {
       '1s',
     );
     const result = riichi.calc();
-    expect(riichi.rawString()).toBe('1m1m2m2m3m3m7m8m9m1s1s+406m+00');
+    expect(riichi.rawString()).toBe('1m1m2m2m3m3m7m8m9m1s1s+406m+11');
     assertAgariResult(result);
   });
 
@@ -108,7 +108,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+11z+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+11z+11');
   });
 
   it('ankan conversion with aka', () => {
@@ -119,7 +119,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+50m+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+50m+11');
   });
 
   it('pon conversion', () => {
@@ -130,7 +130,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+111z+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+111z+11');
   });
 
   it('pon conversion with aka', () => {
@@ -149,7 +149,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+505m+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+505m+11');
   });
 
   it('daiminkan conversion', () => {
@@ -168,7 +168,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+1111z+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+1111z+11');
   });
 
   it('daiminkan conversion with aka', () => {
@@ -187,7 +187,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+5055m+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+5055m+11');
   });
 
   it('kakan conversion', () => {
@@ -208,7 +208,7 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+1111z+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m5m6m7m8m9m1s1s+1111z+11');
   });
 
   it('kakan conversion with aka', () => {
@@ -229,6 +229,6 @@ describe('Test Builder Fuuro conversion', () => {
     );
     const result = riichi.calc();
     assertAgariResult(result);
-    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+5055m+00');
+    expect(riichi.rawString()).toBe('1m2m3m4m6m6m7m7m8m8m1m+5055m+11');
   });
 });

@@ -3,6 +3,7 @@ import { PlayerID, Tile, Wind } from '@types';
 import { Riichi } from './Riichi';
 import { GameState } from '../GameState';
 import { Fuuro } from '../types/Tehai';
+import { calcActualDora } from '../utils/CalcActualDora';
 
 const ConvertTile = (tile: Tile | Tile[]): string => {
   if (Array.isArray(tile)) {
@@ -105,7 +106,7 @@ const ConvertHand = (
 
 const windMap: [Wind, Wind, Wind, Wind] = ['E', 'S', 'W', 'N'];
 const ConvertWind = (wind: Wind): string => {
-  return windMap.indexOf(wind).toString();
+  return (windMap.indexOf(wind) + 1).toString();
 };
 
 const ConvertDora = (dora: Tile[]): string | null => {
@@ -119,7 +120,7 @@ const ConvertUraDora = (uraDora: Tile[]): string | null => {
   if (uraDora.length === 0) {
     return null;
   }
-  return `u${uraDora.map((tile) => ConvertTile(tile)).join('')}`;
+  return `u${uraDora.map((tile) => ConvertTile(calcActualDora(tile))).join('')}`;
 };
 
 const ConvertExtra = (
@@ -132,27 +133,27 @@ const ConvertExtra = (
   bakaaze: Wind,
   zikaze: Wind,
 ): string => {
-  const extras = '';
+  let extras = '';
   const bakazeExtra = ConvertWind(bakaaze);
   const jikazeExtra = ConvertWind(zikaze);
 
   if (isTenchiho) {
-    return extras + 't';
+    extras += 't';
   }
   if (isDoubleReach) {
-    return extras + 'w';
+    extras += 'w';
   }
   if (isIpatsu) {
-    return extras + 'i';
+    extras += 'i';
   }
   if (isReach) {
-    return extras + 'r';
+    extras += 'r';
   }
   if (isHaiteiHotei) {
-    return extras + 'h';
+    extras += 'h';
   }
   if (isChankanRinshan) {
-    return extras + 'k';
+    extras += 'k';
   }
 
   return `${extras}${bakazeExtra}${jikazeExtra}`;
