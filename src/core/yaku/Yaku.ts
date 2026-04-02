@@ -50,7 +50,7 @@ const YAKU: Record<string, YakuDef> = {
       return (
         check13(o.haiArray) &&
         o.hai.reduce((total, v) => {
-          return v === o.agari ? ++total : total;
+          return v === o.agari ? total + 1 : total;
         }, 0) === 2
       );
     },
@@ -62,7 +62,7 @@ const YAKU: Record<string, YakuDef> = {
       return (
         check13(o.haiArray) &&
         o.hai.reduce((total, v) => {
-          return v === o.agari ? ++total : total;
+          return v === o.agari ? total + 1 : total;
         }, 0) === 1
       );
     },

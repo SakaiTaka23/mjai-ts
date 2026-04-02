@@ -6,8 +6,9 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 // @ts-ignore
 import importPlugin from 'eslint-plugin-import';
 import unusedImports from 'eslint-plugin-unused-imports';
+import { defineConfig } from 'eslint/config';
 
-export default tseslint.config([
+export default defineConfig([
   {
     ignores: ['dist/**', '*.config.*'],
   },
@@ -67,7 +68,7 @@ export default tseslint.config([
     languageOptions: {
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: import.meta.url,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },

@@ -65,7 +65,7 @@ const formatSameTiles = (tiles: Tile[], repeatCount: 2 | 3 | 4): string => {
     result += nums.join('');
   }
 
-  return (result += nums[0].repeat(repeatCount - 2) + suit);
+  return result + nums[0].repeat(repeatCount - 2) + suit;
 };
 
 const ConvertFuuro = (fuuro: Fuuro): string => {

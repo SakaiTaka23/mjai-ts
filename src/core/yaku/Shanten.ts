@@ -22,7 +22,7 @@ const syanten = (hai_arr: HaiArr) => {
       tatsu: number,
       alone: number,
     ) => {
-      let tmp = [0, 0, 0];
+      let tmp;
       let max = [mentsu, tatsu, alone];
       if (index === (is_jihai ? 7 : 9)) {
         return max;
