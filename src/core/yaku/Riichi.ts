@@ -364,7 +364,7 @@ export class Riichi {
    * 符計算
    */
   calcFu() {
-    let fu = 0;
+    let fu;
     const hasChiitoi = this.tmpResult.yaku.some((y) => y.name === '七対子');
     const hasPinfu = this.tmpResult.yaku.some((y) => y.name === '平和');
     if (hasChiitoi) {

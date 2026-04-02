@@ -14,8 +14,9 @@ export interface GameState {
 }
 
 //  extend so that we can add more utility functions
-export interface TehaiState
-  extends BaseState<[HandState, HandState, HandState, HandState]> {
+export interface TehaiState extends BaseState<
+  [HandState, HandState, HandState, HandState]
+> {
   fuuros(): [Fuuro[], Fuuro[], Fuuro[], Fuuro[]];
 }
 
@@ -24,44 +25,43 @@ export interface DoraState extends BaseState<Tile[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ScoreState
-  extends BaseState<[number, number, number, number]> {}
+export interface ScoreState extends BaseState<
+  [number, number, number, number]
+> {}
 
-export interface KawaState
-  extends BaseState<{
-    kawas: [Kawa, Kawa, Kawa, Kawa];
-    remaining: number;
-    isHaiteiHotei: boolean;
-  }> {
+export interface KawaState extends BaseState<{
+  kawas: [Kawa, Kawa, Kawa, Kawa];
+  remaining: number;
+  isHaiteiHotei: boolean;
+}> {
   kawas(): [Kawa, Kawa, Kawa, Kawa];
   remaining(): number;
   isHaiteiHotei(): boolean;
 }
 
-export interface KyokuState
-  extends BaseState<{
-    kyoku: number;
-    honba: number;
-    kyotaku: number;
-    bakaze: 'E' | 'S' | 'W';
-    oya: PlayerID;
-    isChankanRinshan: boolean;
-    isTenChiho: [boolean, boolean, boolean, boolean];
-    reachPlayers: Set<{
-      playerId: PlayerID;
-      isIpatsu: boolean;
-      isDoubleReach: boolean;
-    }>;
-    horaPlayers: Set<{
-      playerId: PlayerID;
-      targetPlayerId: PlayerID;
-      isRon: boolean;
-      horaTile: Tile;
-      uraDora: Tile[];
-      deltas: [number, number, number, number];
-    }>;
-    junme: number;
-  }> {
+export interface KyokuState extends BaseState<{
+  kyoku: number;
+  honba: number;
+  kyotaku: number;
+  bakaze: 'E' | 'S' | 'W';
+  oya: PlayerID;
+  isChankanRinshan: boolean;
+  isTenChiho: [boolean, boolean, boolean, boolean];
+  reachPlayers: Set<{
+    playerId: PlayerID;
+    isIpatsu: boolean;
+    isDoubleReach: boolean;
+  }>;
+  horaPlayers: Set<{
+    playerId: PlayerID;
+    targetPlayerId: PlayerID;
+    isRon: boolean;
+    horaTile: Tile;
+    uraDora: Tile[];
+    deltas: [number, number, number, number];
+  }>;
+  junme: number;
+}> {
   kyoku(): number;
   honba(): number;
   kyotaku(): number;
@@ -97,19 +97,19 @@ export interface InternalGameState {
 }
 
 export interface InternalTehaiState
-  extends TehaiState,
+  extends
+    TehaiState,
     InternalBaseState<[HandState, HandState, HandState, HandState]> {}
 
 export interface InternalDoraState
-  extends DoraState,
-    InternalBaseState<Tile[]> {}
+  extends DoraState, InternalBaseState<Tile[]> {}
 
 export interface InternalScoreState
-  extends ScoreState,
-    InternalBaseState<[number, number, number, number]> {}
+  extends ScoreState, InternalBaseState<[number, number, number, number]> {}
 
 export interface InternalKawaState
-  extends KawaState,
+  extends
+    KawaState,
     InternalBaseState<{
       kawas: [Kawa, Kawa, Kawa, Kawa];
       remaining: number;
@@ -117,7 +117,8 @@ export interface InternalKawaState
     }> {}
 
 export interface InternalKyokuState
-  extends KyokuState,
+  extends
+    KyokuState,
     InternalBaseState<{
       kyoku: number;
       honba: number;
