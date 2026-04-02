@@ -14,6 +14,8 @@ export {
   createRiichiFromParams,
   createRiichiFromState,
 } from './yaku/RiichiBuilder';
+export type { UkeireResult, DiscardOption } from './yaku/Ukeire';
+export { calculateUkeire } from './yaku/Ukeire';
 export type {
   YakuName,
   YakuValue,

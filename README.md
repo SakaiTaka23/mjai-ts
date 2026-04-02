@@ -306,6 +306,19 @@ const [oya, ko] = paymentToArrays(result.payment);
 - `parseYakuString(str)` - Parse yaku from string
 - `paymentToArrays(payment)` - Convert payment object to arrays [oya, ko]
 
+### Ukeire
+
+- `calculateUkeire(tehai, fuuros?)` - Calculate shanten and ukeire for a hand
+  - `tehai: Tile[]` - Hand tiles (13 or 14 tiles)
+  - `fuuros: Fuuro[]` - Optional called tiles (chi, pon, kan)
+  - Returns `UkeireResult`:
+    - `shanten: number` - Shanten count (-1 = winning, 0 = tenpai)
+    - `ukeire: number` - Total number of accepting tiles
+    - `tiles: Map<Tile, number>` - Waiting tiles and their remaining counts (e.g. `'P'`, `'1m'`)
+    - `discardOptions?: Map<Tile, DiscardOption>` - Per-discard ukeire breakdown (14-tile hands only)
+  - 13-tile hand: returns best shanten and waiting tiles directly
+  - 14-tile hand: evaluates each possible discard and selects the one with highest ukeire
+
 ### Types
 
 All TypeScript types for game events, tiles, states, and calculation results are exported from the main package.
